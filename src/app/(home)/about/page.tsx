@@ -1,12 +1,12 @@
 "use client";
 
 import Header from "@/components/home/layout/header";
-import HeroSection from "@/components/home/about2/heroSection";
-import StatsGrid from "@/components/home/about2/statsGrid";
-import MissionVision from "@/components/home/about2/missionVision";
-import ValuesGrid from "@/components/home/about2/valuesGrid";
-import TeamGrid from "@/components/home/about2/teamGrid";
-import WhyChooseUs from "@/components/home/about2/whyChooseUs";
+import HeroSection from "@/components/home/about/heroSection";
+import StatsGrid from "@/components/home/about/statsGrid";
+import MissionVision from "@/components/home/about/missionVision";
+import ValuesGrid from "@/components/home/about/valuesGrid";
+import TeamGrid from "@/components/home/about/teamGrid";
+import WhyChooseUs from "@/components/home/about/whyChooseUs";
 
 const About = () => {
 
