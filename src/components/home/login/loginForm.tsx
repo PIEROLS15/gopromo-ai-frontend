@@ -58,15 +58,13 @@ export default function LoginForm() {
 
       console.log("Login exitoso");
       // aquí luego puedes redirigir
-    } catch (error: any) {
-      if (error?.errors) {
-        const fieldErrors: Record<string, string> = {};
-        Object.keys(error.errors).forEach((key) => {
-          fieldErrors[key] = error.errors[key][0];
-        });
-        setErrors(fieldErrors);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setErrors({ general: error.message });
+      } else if (typeof error === "object" && error !== null && "message" in error) {
+        setErrors({ general: String((error as { message: string }).message) });
       } else {
-        setApiError(error?.message || "Error al iniciar sesión");
+        setErrors({ general: "Error inesperado al iniciar sesión" });
       }
     } finally {
       setLoading(false);
@@ -194,8 +192,8 @@ export default function LoginForm() {
 
 
           <Button type="submit" className="w-full h-12" disabled={loading}>
-  {loading ? "Ingresando..." : "Iniciar Sesión"}
-</Button>
+            {loading ? "Ingresando..." : "Iniciar Sesión"}
+          </Button>
 
           {/* Divider */}
           <div className="relative">
