@@ -7,6 +7,7 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { loginService } from "@/services/login.service";
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -22,11 +23,17 @@ export default function LoginForm() {
     password: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false);
+  const [apiError, setApiError] = useState("");
+
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
+    setApiError("");
 
     const result = loginSchema.safeParse(form);
+
     if (!result.success) {
       const fieldErrors: Record<string, string> = {};
 
@@ -41,9 +48,31 @@ export default function LoginForm() {
       return;
     }
 
+    try {
+      setLoading(true);
 
+      await loginService({
+        email: form.email,
+        password: form.password,
+      });
 
+      console.log("Login exitoso");
+      // aquí luego puedes redirigir
+    } catch (error: any) {
+      if (error?.errors) {
+        const fieldErrors: Record<string, string> = {};
+        Object.keys(error.errors).forEach((key) => {
+          fieldErrors[key] = error.errors[key][0];
+        });
+        setErrors(fieldErrors);
+      } else {
+        setApiError(error?.message || "Error al iniciar sesión");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -157,9 +186,16 @@ export default function LoginForm() {
             </button>
           </div>
 
-          <Button type="submit" className="w-full h-12">
-            Iniciar Sesión
-          </Button>
+          {apiError && (
+            <p className="text-sm text-destructive text-center">
+              {apiError}
+            </p>
+          )}
+
+
+          <Button type="submit" className="w-full h-12" disabled={loading}>
+  {loading ? "Ingresando..." : "Iniciar Sesión"}
+</Button>
 
           {/* Divider */}
           <div className="relative">
