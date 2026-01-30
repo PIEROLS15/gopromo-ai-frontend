@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Ticket, Star, Headphones } from "lucide-react";
 
-export default function LoginLeftPanel() {
+const LoginLeftPanel = () => {
   return (
     <div className="hidden lg:block space-y-8 pr-10">
       {/* Logo + Title */}
@@ -47,6 +47,9 @@ export default function LoginLeftPanel() {
     </div>
   );
 }
+
+export default LoginLeftPanel;
+
 
 function Benefit({
   icon,

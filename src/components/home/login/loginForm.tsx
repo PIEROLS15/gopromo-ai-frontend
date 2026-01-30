@@ -3,79 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { loginService } from "@/services/login.service";
+import { useLogin } from "@/hooks/useLogin";
 
-const loginSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(1, "Contraseña requerida"),
-});
-
-export default function LoginForm() {
+const LoginForm = () => {
+  const { form, setForm, errors, loading, handleSubmit } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [apiError, setApiError] = useState("");
-
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-    setApiError("");
-
-    const result = loginSchema.safeParse(form);
-
-    if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
-
-      result.error.issues.forEach((err) => {
-        const field = err.path[0];
-        if (field) {
-          fieldErrors[field as string] = err.message;
-        }
-      });
-
-      setErrors(fieldErrors);
-      return;
-    }
-
-    try {
-      setLoading(true);
-
-      await loginService({
-        email: form.email,
-        password: form.password,
-      });
-
-      console.log("Login exitoso");
-      // aquí luego puedes redirigir
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        setErrors({ general: error.message });
-      } else if (typeof error === "object" && error !== null && "message" in error) {
-        setErrors({ general: String((error as { message: string }).message) });
-      } else {
-        setErrors({ general: "Error inesperado al iniciar sesión" });
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
 
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="bg-card border border-border rounded-2xl shadow-xl p-8">
-
         {/* Mobile title */}
         <div className="text-center mb-8 lg:hidden">
           <h1 className="text-2xl font-bold">Bienvenido de vuelta</h1>
@@ -86,12 +25,9 @@ export default function LoginForm() {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-
           {/* Email */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Email
-            </label>
+            <label className="text-sm font-medium">Email</label>
 
             <div className="relative">
               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -107,17 +43,13 @@ export default function LoginForm() {
             </div>
 
             {errors.email && (
-              <p className="text-sm text-destructive">
-                {errors.email}
-              </p>
+              <p className="text-sm text-destructive">{errors.email}</p>
             )}
           </div>
 
           {/* Password */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">
-              Contraseña
-            </label>
+            <label className="text-sm font-medium">Contraseña</label>
 
             <div className="relative">
               <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -141,11 +73,16 @@ export default function LoginForm() {
             </div>
 
             {errors.password && (
-              <p className="text-sm text-destructive">
-                {errors.password}
-              </p>
+              <p className="text-sm text-destructive">{errors.password}</p>
             )}
           </div>
+
+          {/* General Error */}
+          {errors.general && (
+            <p className="text-sm text-destructive text-center">
+              {errors.general}
+            </p>
+          )}
 
           {/* Remember + Forgot */}
           <div className="flex items-center justify-between">
@@ -153,12 +90,9 @@ export default function LoginForm() {
               <span className="relative flex items-center justify-center">
                 <input
                   type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
                   className="peer h-4 w-4 appearance-none rounded-full border border-primary checked:bg-primary checked:border-primary transition"
                 />
 
-                {/* Check */}
                 <svg
                   viewBox="0 0 24 24"
                   className="pointer-events-none absolute h-3 w-3 text-white opacity-0 peer-checked:opacity-100 transition"
@@ -175,7 +109,6 @@ export default function LoginForm() {
               Recuérdame
             </label>
 
-
             <button
               type="button"
               className="text-sm text-primary hover:underline"
@@ -183,13 +116,6 @@ export default function LoginForm() {
               ¿Olvidaste tu contraseña?
             </button>
           </div>
-
-          {apiError && (
-            <p className="text-sm text-destructive text-center">
-              {apiError}
-            </p>
-          )}
-
 
           <Button type="submit" className="w-full h-12" disabled={loading}>
             {loading ? "Ingresando..." : "Iniciar Sesión"}
@@ -201,9 +127,7 @@ export default function LoginForm() {
               <span className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-card px-2 text-muted-foreground">
-                O
-              </span>
+              <span className="bg-card px-2 text-muted-foreground">O</span>
             </div>
           </div>
 
@@ -217,4 +141,6 @@ export default function LoginForm() {
       </div>
     </div>
   );
-}
+};
+
+export default LoginForm;
