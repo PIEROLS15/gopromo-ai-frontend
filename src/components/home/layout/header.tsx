@@ -128,7 +128,7 @@ const Header = () => {
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         ) : (
-                            <Link href="/auth">
+                            <Link href="/login">
                                 <Button variant="ghost" size="sm" className="gap-2">
                                     <User className="w-4 h-4" />
                                     Ingresar
@@ -220,7 +220,7 @@ const Header = () => {
                                     </Button>
                                 </>
                             ) : (
-                                <Link href="/auth" onClick={() => setIsMenuOpen(false)} className="w-full">
+                                <Link href="/login" onClick={() => setIsMenuOpen(false)} className="w-full">
                                     <Button variant="outline" className="w-full justify-start gap-2">
                                         <User className="w-4 h-4" />
                                         Ingresar
