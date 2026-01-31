@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { loginSchema } from "@/lib/validations/login.schema";
-import { loginService } from "@/services/login.service";
+import { LoginService } from "@/services/login.service";
 
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -29,7 +29,7 @@ export const useLogin = () => {
 
     try {
       setLoading(true);
-      await loginService(form);
+      await LoginService.login(form);
     } catch (error: unknown) {
       if (error instanceof Error) {
         setErrors({ general: error.message });

@@ -8,8 +8,7 @@ const LoginLeftPanel = () => {
       <div>
         <Link
           href="/"
-          className="flex items-center gap-2 text-2xl font-bold text-primary mb-6"
-        >
+          className="flex items-center gap-2 text-2xl font-bold text-primary mb-6">
           <span className="text-3xl">✈️</span>
           GoPromo AI
         </Link>
@@ -29,27 +28,22 @@ const LoginLeftPanel = () => {
         <Benefit
           icon={<Ticket className="h-6 w-6 text-primary" />}
           title="Acceso a tus reservas"
-          description="Gestiona todos tus viajes en un solo lugar"
-        />
+          description="Gestiona todos tus viajes en un solo lugar"/>
 
         <Benefit
           icon={<Star className="h-6 w-6 text-yellow-500" />}
           title="Promociones exclusivas"
-          description="Descuentos especiales para miembros"
-        />
+          description="Descuentos especiales para miembros"/>
 
         <Benefit
           icon={<Headphones className="h-6 w-6 text-emerald-500" />}
           title="Soporte prioritario"
-          description="Atención 24/7 para tus consultas"
-        />
+          description="Atención 24/7 para tus consultas"/>
       </div>
     </div>
   );
 }
-
 export default LoginLeftPanel;
-
 
 function Benefit({
   icon,

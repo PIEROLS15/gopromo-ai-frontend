@@ -1,9 +1,7 @@
 "use client";
-
 import { useState } from "react";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLogin } from "@/hooks/useLogin";
@@ -11,7 +9,6 @@ import { useLogin } from "@/hooks/useLogin";
 const LoginForm = () => {
   const { form, setForm, errors, loading, handleSubmit } = useLogin();
   const [showPassword, setShowPassword] = useState(false);
-
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="bg-card border border-border rounded-2xl shadow-xl p-8">
@@ -38,8 +35,7 @@ const LoginForm = () => {
                 value={form.email}
                 onChange={(e) =>
                   setForm({ ...form, email: e.target.value })
-                }
-              />
+                }/>
             </div>
 
             {errors.email && (
@@ -60,14 +56,12 @@ const LoginForm = () => {
                 value={form.password}
                 onChange={(e) =>
                   setForm({ ...form, password: e.target.value })
-                }
-              />
+                }/>
 
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                 {showPassword ? <EyeOff /> : <Eye />}
               </button>
             </div>
@@ -90,8 +84,7 @@ const LoginForm = () => {
               <span className="relative flex items-center justify-center">
                 <input
                   type="checkbox"
-                  className="peer h-4 w-4 appearance-none rounded-full border border-primary checked:bg-primary checked:border-primary transition"
-                />
+                  className="peer h-4 w-4 appearance-none rounded-full border border-primary checked:bg-primary checked:border-primary transition"/>
 
                 <svg
                   viewBox="0 0 24 24"
@@ -100,19 +93,17 @@ const LoginForm = () => {
                   stroke="currentColor"
                   strokeWidth="3"
                   strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
+                  strokeLinejoin="round">
+
                   <path d="M5 13l4 4L19 7" />
                 </svg>
               </span>
-
               Recuérdame
             </label>
 
             <button
               type="button"
-              className="text-sm text-primary hover:underline"
-            >
+              className="text-sm text-primary hover:underline">
               ¿Olvidaste tu contraseña?
             </button>
           </div>
@@ -142,5 +133,4 @@ const LoginForm = () => {
     </div>
   );
 };
-
 export default LoginForm;
