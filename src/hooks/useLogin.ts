@@ -1,8 +1,16 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 import { loginSchema } from "@/lib/validations/login.schema";
 import { LoginService } from "@/services/login.service";
 
-export const useLogin = () => {
+interface ApiError {
+  message?: string;
+}
+
+export const useLogin = (rememberMe: boolean) => {
+  const router = useRouter();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [form, setForm] = useState({
@@ -13,7 +21,6 @@ export const useLogin = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
-
     const result = loginSchema.safeParse(form);
     if (!result.success) {
       const fieldErrors: Record<string, string> = {};
@@ -26,27 +33,34 @@ export const useLogin = () => {
       setErrors(fieldErrors);
       return;
     }
-
     try {
       setLoading(true);
       await LoginService.login(form);
+      toast({
+        title: "¡Éxito!",
+        description: "Inicio de sesión exitoso",
+        variant: "success",
+      });
+      router.push("/");
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setErrors({ general: error.message });
-      } else if (
+      let message = "Error inesperado al iniciar sesión";
+      if (
         typeof error === "object" &&
         error !== null &&
         "message" in error
       ) {
-        setErrors({ general: String((error as { message: string }).message) });
-      } else {
-        setErrors({ general: "Error inesperado al iniciar sesión" });
+        message = String((error as { message: string }).message);
       }
+      toast({
+        title: "¡Error!",
+        description: message,
+        variant: "destructive",
+      });
+      setErrors({ general: message });
     } finally {
       setLoading(false);
     }
   };
-
   return {
     form,
     setForm,

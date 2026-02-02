@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -7,8 +8,10 @@ import { Input } from "@/components/ui/input";
 import { useLogin } from "@/hooks/useLogin";
 
 const LoginForm = () => {
-  const { form, setForm, errors, loading, handleSubmit } = useLogin();
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const { form, setForm, errors, loading, handleSubmit } = useLogin(rememberMe);
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="bg-card border border-border rounded-2xl shadow-xl p-8">
@@ -35,7 +38,7 @@ const LoginForm = () => {
                 value={form.email}
                 onChange={(e) =>
                   setForm({ ...form, email: e.target.value })
-                }/>
+                } />
             </div>
 
             {errors.email && (
@@ -56,7 +59,7 @@ const LoginForm = () => {
                 value={form.password}
                 onChange={(e) =>
                   setForm({ ...form, password: e.target.value })
-                }/>
+                } />
 
               <button
                 type="button"
@@ -84,7 +87,10 @@ const LoginForm = () => {
               <span className="relative flex items-center justify-center">
                 <input
                   type="checkbox"
-                  className="peer h-4 w-4 appearance-none rounded-full border border-primary checked:bg-primary checked:border-primary transition"/>
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="peer h-4 w-4 appearance-none rounded-full border border-primary checked:bg-primary checked:border-primary transition"
+                />
 
                 <svg
                   viewBox="0 0 24 24"
@@ -124,9 +130,9 @@ const LoginForm = () => {
 
           <p className="text-center text-sm text-muted-foreground">
             ¿No tienes cuenta?{" "}
-            <Link href="#" className="text-primary hover:underline">
+            <button type="button" onClick={() => router.push("/register")} className="text-primary hover:underline">
               Regístrate aquí
-            </Link>
+            </button>
           </p>
         </form>
       </div>
