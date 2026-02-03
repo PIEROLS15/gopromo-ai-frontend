@@ -1,28 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import {
-  User,
-  Mail,
-  Phone,
-  Lock,
-  School,
-  Eye,
-} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { User, Mail, Phone, Lock, School, Eye } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { publicRegisterSchema } from "@/lib/validations/register.schema";
-
-/* ---------- TYPES ---------- */
-
-type ApiResponse = {
-  status: "success" | "error";
-  message: string;
-  errors?: Record<string, string[]>;
-};
+import { useRegister } from "@/hooks/useRegister";
 
 /* ---------- FIELD ---------- */
 
@@ -42,7 +29,7 @@ function Field({
 } & React.ComponentProps<typeof Input>) {
   return (
     <div className="space-y-1">
-      <label className="block text-sm font-medium text-zinc-200 mb-1">
+      <label className="block text-sm font-medium text-zinc-200">
         {label}
       </label>
 
@@ -57,7 +44,7 @@ function Field({
         {RightIcon && (
           <RightIcon
             onClick={onRightIconClick}
-            className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500 cursor-pointer"
+            className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 cursor-pointer text-zinc-500"
           />
         )}
       </div>
@@ -73,9 +60,12 @@ function Field({
 
 export default function PublicRegisterForm() {
   const { toast } = useToast();
+  const { registerPublic } = useRegister();
+  const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
 
   const [form, setForm] = useState({
     fullName: "",
@@ -91,7 +81,6 @@ export default function PublicRegisterForm() {
     e.preventDefault();
 
     const parsed = publicRegisterSchema.safeParse(form);
-
     if (!parsed.success) {
       toast({
         title: "Error",
@@ -103,43 +92,21 @@ export default function PublicRegisterForm() {
     }
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/auth/register-general`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: form.email,
-            fullName: form.fullName,
-            educationalInstitution: form.institution || null,
-            phone: form.phone || null,
-            password: form.password,
-            roleId: 2,
-          }),
-        }
-      );
-
-      let data: ApiResponse | null = null;
-
-      if (res.status !== 204) {
-        data = (await res.json()) as ApiResponse;
-      }
-
-      if (!res.ok) {
-        if (data?.errors) {
-          const firstError = Object.values(data.errors)[0][0];
-          throw new Error(firstError);
-        }
-        throw new Error(data?.message ?? "Error al registrar");
-      }
+      await registerPublic({
+        email: parsed.data.email,
+        fullName: parsed.data.fullName,
+        educationalInstitution: form.institution || null,
+        phone: parsed.data.phone || null,
+        password: parsed.data.password,
+      });
 
       toast({
         title: "Registro exitoso",
-        description: "Tu cuenta fue creada correctamente",
-        variant: "success",
+        description: "Cuenta creada correctamente",
       });
 
-    } catch (error: unknown) {
+      router.push("/dashboard");
+    } catch (error) {
       toast({
         title: "Error",
         description:
@@ -200,48 +167,53 @@ export default function PublicRegisterForm() {
         rightIcon={Eye}
         type={showPassword ? "text" : "password"}
         placeholder="Mínimo 8 caracteres"
-        helper="Mínimo 8 caracteres, 1 mayúscula y 1 número"
+        helper="Mínimo 8 caracteres"
         value={form.password}
         onChange={(e) =>
           setForm({ ...form, password: e.target.value })
         }
-        onRightIconClick={() => setShowPassword(v => !v)}
+        onRightIconClick={() =>
+          setShowPassword((v) => !v)
+        }
       />
 
       <Field
         label="Confirmar contraseña"
         icon={Lock}
         rightIcon={Eye}
-        type={showConfirmPassword ? "text" : "password"}
+        type={
+          showConfirmPassword ? "text" : "password"
+        }
         placeholder="Repite tu contraseña"
         value={form.confirmPassword}
         onChange={(e) =>
-          setForm({ ...form, confirmPassword: e.target.value })
+          setForm({
+            ...form,
+            confirmPassword: e.target.value,
+          })
         }
-        onRightIconClick={() => setShowConfirmPassword(v => !v)}
+        onRightIconClick={() =>
+          setShowConfirmPassword((v) => !v)
+        }
       />
 
       <div className="flex items-start gap-3 pt-2">
         <Checkbox
           checked={form.acceptTerms}
           onCheckedChange={(v) =>
-            setForm({ ...form, acceptTerms: v as boolean })
+            setForm({
+              ...form,
+              acceptTerms: v as boolean,
+            })
           }
         />
         <span className="text-sm text-zinc-300">
-          Acepto los{" "}
-          <span className="text-emerald-400 font-medium">
-            términos y condiciones
-          </span>{" "}
-          y la{" "}
-          <span className="text-emerald-400 font-medium">
-            política de privacidad
-          </span>
+          Acepto términos y política de privacidad
         </span>
       </div>
 
       <Button
-        className="w-full h-12 text-base rounded-xl"
+        className="w-full h-12"
         disabled={!form.acceptTerms}
       >
         Crear cuenta
@@ -249,6 +221,9 @@ export default function PublicRegisterForm() {
     </form>
   );
 }
+
+
+
 
 
 
