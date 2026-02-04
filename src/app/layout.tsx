@@ -5,6 +5,7 @@ import { GeistMono } from "geist/font/mono"
 // import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import { AppProviders } from "@/components/app-providers"
+import { Toaster } from "@/components/ui/toaster"
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({
         <AppProviders>
           {children}
           {/* <Analytics /> */}
+          <Toaster />
         </AppProviders>
       </body>
     </html>

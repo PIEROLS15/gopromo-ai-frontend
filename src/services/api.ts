@@ -13,6 +13,7 @@ export async function apiFetch<T>(
   options: FetchOptions = {}
 ): Promise<T> {
   const res = await fetch(`${BASE_URL}${endpoint}`, {
+    credentials: "include",
     ...options,
     headers: {
       "Content-Type": "application/json",
