@@ -1,233 +1,150 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { User, Mail, Phone, Lock, School, Eye } from "lucide-react";
-
+import { User, Mail, Phone, Lock, School, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
-import { publicRegisterSchema } from "@/lib/validations/register.schema";
+import { Label } from "@/components/ui/label";
 import { useRegister } from "@/hooks/useRegister";
 
-/* ---------- FIELD ---------- */
+const PublicRegisterForm = () => {
+  const { publicForm, setPublicForm, handlePublicSubmit } = useRegister();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-function Field({
-  label,
-  icon: Icon,
-  rightIcon: RightIcon,
-  onRightIconClick,
-  helper,
-  ...props
-}: {
-  label: string;
-  icon: React.ElementType;
-  rightIcon?: React.ElementType;
-  onRightIconClick?: () => void;
-  helper?: string;
-} & React.ComponentProps<typeof Input>) {
   return (
-    <div className="space-y-1">
-      <label className="block text-sm font-medium text-zinc-200">
-        {label}
-      </label>
-
-      <div className="relative">
-        <Icon className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
-
-        <Input
-          className={`pl-11 ${RightIcon ? "pr-11" : ""}`}
-          {...props}
-        />
-
-        {RightIcon && (
-          <RightIcon
-            onClick={onRightIconClick}
-            className="absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 cursor-pointer text-zinc-500"
+    <form onSubmit={handlePublicSubmit} className="space-y-5">
+      <div className="space-y-2">
+        <Label>Nombre completo</Label>
+        <div className="relative">
+          <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Tu nombre completo"
+            className="pl-10"
+            value={publicForm.fullName}
+            onChange={(e) =>
+              setPublicForm({ ...publicForm, fullName: e.target.value })
+            }
           />
-        )}
+        </div>
       </div>
 
-      {helper && (
-        <p className="text-xs text-zinc-400">{helper}</p>
-      )}
-    </div>
-  );
-}
+      <div className="space-y-2">
+        <Label>Email</Label>
+        <div className="relative">
+          <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type="email"
+            placeholder="tu@email.com"
+            className="pl-10"
+            value={publicForm.email}
+            onChange={(e) =>
+              setPublicForm({ ...publicForm, email: e.target.value })
+            }
+          />
+        </div>
+      </div>
 
-/* ---------- FORM ---------- */
+      <div className="space-y-2">
+        <Label>Teléfono</Label>
+        <div className="relative">
+          <Phone className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="+51 9 XXXX XXXX"
+            className="pl-10"
+            value={publicForm.phone}
+            onChange={(e) =>
+              setPublicForm({ ...publicForm, phone: e.target.value })
+            }
+          />
+        </div>
+      </div>
 
-export default function PublicRegisterForm() {
-  const { toast } = useToast();
-  const { registerPublic } = useRegister();
-  const router = useRouter();
+      <div className="space-y-2">
+        <Label>Institución educativa (Opcional)</Label>
+        <div className="relative">
+          <School className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            placeholder="Nombre de tu institución"
+            className="pl-10"
+            value={publicForm.institution}
+            onChange={(e) =>
+              setPublicForm({ ...publicForm, institution: e.target.value })
+            }
+          />
+        </div>
+      </div>
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState(false);
+      <div className="space-y-2">
+        <Label>Contraseña</Label>
+        <div className="relative">
+          <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type={showPassword ? "text" : "password"}
+            placeholder="Mínimo 8 caracteres"
+            className="pl-10 pr-10"
+            value={publicForm.password}
+            onChange={(e) =>
+              setPublicForm({ ...publicForm, password: e.target.value })
+            }
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          >
+            {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>
+        </div>
+        <p className="text-xs text-muted-foreground">Mínimo 8 caracteres</p>
+      </div>
 
-  const [form, setForm] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    institution: "",
-    password: "",
-    confirmPassword: "",
-    acceptTerms: false,
-  });
+      <div className="space-y-2">
+        <Label>Confirmar contraseña</Label>
+        <div className="relative">
+          <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder="Repite tu contraseña"
+            className="pl-10 pr-10"
+            value={publicForm.confirmPassword}
+            onChange={(e) =>
+              setPublicForm({
+                ...publicForm,
+                confirmPassword: e.target.value,
+              })
+            }
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          >
+            {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          </button>
+        </div>
+      </div>
 
-  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const parsed = publicRegisterSchema.safeParse(form);
-    if (!parsed.success) {
-      toast({
-        title: "Error",
-        description:
-          parsed.error.issues[0]?.message ?? "Formulario inválido",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      await registerPublic({
-        email: parsed.data.email,
-        fullName: parsed.data.fullName,
-        educationalInstitution: form.institution || null,
-        phone: parsed.data.phone || null,
-        password: parsed.data.password,
-      });
-
-      toast({
-        title: "Registro exitoso",
-        description: "Cuenta creada correctamente",
-      });
-
-      router.push("/dashboard");
-    } catch (error) {
-      toast({
-        title: "Error",
-        description:
-          error instanceof Error
-            ? error.message
-            : "Error al registrar",
-        variant: "destructive",
-      });
-    }
-  };
-
-  return (
-    <form onSubmit={submit} className="space-y-5">
-      <Field
-        label="Nombre completo"
-        icon={User}
-        placeholder="Tu nombre completo"
-        value={form.fullName}
-        onChange={(e) =>
-          setForm({ ...form, fullName: e.target.value })
-        }
-      />
-
-      <Field
-        label="Email"
-        icon={Mail}
-        type="email"
-        placeholder="tu@email.com"
-        value={form.email}
-        onChange={(e) =>
-          setForm({ ...form, email: e.target.value })
-        }
-      />
-
-      <Field
-        label="Teléfono"
-        icon={Phone}
-        placeholder="+51 9 XXXX XXXX"
-        value={form.phone}
-        onChange={(e) =>
-          setForm({ ...form, phone: e.target.value })
-        }
-      />
-
-      <Field
-        label="Institución educativa (Opcional)"
-        icon={School}
-        placeholder="Nombre de tu institución"
-        value={form.institution}
-        onChange={(e) =>
-          setForm({ ...form, institution: e.target.value })
-        }
-      />
-
-      <Field
-        label="Contraseña"
-        icon={Lock}
-        rightIcon={Eye}
-        type={showPassword ? "text" : "password"}
-        placeholder="Mínimo 8 caracteres"
-        helper="Mínimo 8 caracteres"
-        value={form.password}
-        onChange={(e) =>
-          setForm({ ...form, password: e.target.value })
-        }
-        onRightIconClick={() =>
-          setShowPassword((v) => !v)
-        }
-      />
-
-      <Field
-        label="Confirmar contraseña"
-        icon={Lock}
-        rightIcon={Eye}
-        type={
-          showConfirmPassword ? "text" : "password"
-        }
-        placeholder="Repite tu contraseña"
-        value={form.confirmPassword}
-        onChange={(e) =>
-          setForm({
-            ...form,
-            confirmPassword: e.target.value,
-          })
-        }
-        onRightIconClick={() =>
-          setShowConfirmPassword((v) => !v)
-        }
-      />
-
-      <div className="flex items-start gap-3 pt-2">
+      <div className="flex items-center gap-2">
         <Checkbox
-          checked={form.acceptTerms}
+          id="terms"
+          checked={publicForm.acceptTerms}
           onCheckedChange={(v) =>
-            setForm({
-              ...form,
-              acceptTerms: v as boolean,
-            })
+            setPublicForm({ ...publicForm, acceptTerms: v as boolean })
           }
         />
-        <span className="text-sm text-zinc-300">
+        <Label htmlFor="terms" className="text-sm font-normal text-muted-foreground cursor-pointer">
           Acepto términos y política de privacidad
-        </span>
+        </Label>
       </div>
 
-      <Button
-        className="w-full h-12"
-        disabled={!form.acceptTerms}
-      >
+      <Button className="w-full bg-primary hover:bg-primary/90 text-white font-semibold h-11">
         Crear cuenta
       </Button>
+
     </form>
   );
 }
 
-
-
-
-
-
-
-
-
-
+export default PublicRegisterForm;

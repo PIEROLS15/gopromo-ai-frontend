@@ -5,8 +5,6 @@ import {
 } from "@/types/register";
 import { ApiSuccessResponse } from "@/types/api";
 
-/* ---------- SERVICE ---------- */
-
 export const RegisterService = {
   registerPublic: (payload: Omit<PublicRegisterPayload, "roleId">) =>
     apiFetch<ApiSuccessResponse<any>>("/api/v1/auth/register-general", {

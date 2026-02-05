@@ -1,26 +1,14 @@
 import RegisterView from "@/components/home/register/registerView";
 
 export const metadata = {
-  title: "Registro | PromoTrip AI",
+  title: "Registro | GoPromo AI",
 };
 
 export default function RegisterPage() {
   return (
     <main
-      className="
-        min-h-[calc(100vh-4rem)]
-        flex
-        items-center
-        justify-center
-        px-4
-        pt-24
-        pb-14
-        bg-linear-to-b from-[#0B1215] via-[#0E171B] to-[#0B1215]
-      "
-    >
+      className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-24">
       <RegisterView />
     </main>
   );
 }
-
-

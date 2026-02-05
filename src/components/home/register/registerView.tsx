@@ -2,20 +2,9 @@
 
 import RegisterTabs from "@/components/home/register/registerTabs";
 
-export default function RegisterView() {
+const RegisterView = () => {
   return (
-    <section
-      className="
-        w-full
-        max-w-lg
-        bg-card
-        border
-        border-border
-        rounded-2xl
-        shadow-lg
-        p-8
-      "
-    >
+    <section className="w-full max-w-lg bg-card border border-border rounded-2xl shadow-lg p-8">
       <header className="text-center mb-6">
         <h1 className="text-2xl font-bold">Únete a GoPromo AI</h1>
         <p className="text-muted-foreground text-sm">
@@ -27,3 +16,5 @@ export default function RegisterView() {
     </section>
   );
 }
+
+export default RegisterView;

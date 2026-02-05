@@ -8,6 +8,10 @@ import ValuesGrid from "@/components/home/about/valuesGrid";
 import TeamGrid from "@/components/home/about/teamGrid";
 import WhyChooseUs from "@/components/home/about/whyChooseUs";
 
+export const metadata = {
+  title: "Nosotros | GoPromo AI",
+};
+
 const About = () => {
 
   return (

@@ -3,68 +3,24 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { User, Building2 } from "lucide-react";
 import PublicRegisterForm from "@/components/home/register/publicRegisterForm";
-import ProviderRegisterForm from "@/components/home/register/providerRegisterForm";
+import SupplierRegisterForm from "@/components/home/register/supplierRegisterForm";
+import Link from "next/link";
 
-export default function RegisterTabs() {
+const RegisterTabs = () => {
   return (
     <Tabs defaultValue="public" className="w-full">
-      {/* INPUT SELECTOR (LOVABLE REAL) */}
       <TabsList
-        className="
-          mb-8
-          flex
-          h-12
-          w-full
-          rounded-lg
-          bg-[#0B1215]
-          border
-          border-white/10
-          p-1
-          shadow-inner
-        "
-      >
+        className="mb-8 flex h-12 w-full rounded-lg bg-muted p-1 text-muted-foreground shadow-xs">
         <TabsTrigger
           value="public"
-          className="
-            flex
-            w-1/2
-            items-center
-            justify-center
-            gap-2
-            rounded-md
-            text-sm
-            font-medium
-            text-zinc-400
-            transition-all
-
-            data-[state=active]:bg-black/70
-            data-[state=active]:text-white
-            data-[state=active]:shadow
-          "
-        >
+          className="flex w-1/2 items-center justify-center gap-2 rounded-md text-sm font-medium transition-all hover:bg-background/50 hover:text-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
           <User className="h-4 w-4" />
-          Público
+          Público General
         </TabsTrigger>
 
         <TabsTrigger
           value="provider"
-          className="
-            flex
-            w-1/2
-            items-center
-            justify-center
-            gap-2
-            rounded-md
-            text-sm
-            font-medium
-            text-zinc-400
-            transition-all
-
-            data-[state=active]:bg-black/70
-            data-[state=active]:text-white
-            data-[state=active]:shadow
-          "
-        >
+          className="flex w-1/2 items-center justify-center gap-2 rounded-md text-sm font-medium transition-all hover:bg-background/50 hover:text-foreground data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm">
           <Building2 className="h-4 w-4" />
           Proveedor
         </TabsTrigger>
@@ -75,9 +31,28 @@ export default function RegisterTabs() {
       </TabsContent>
 
       <TabsContent value="provider">
-        <ProviderRegisterForm />
+        <SupplierRegisterForm />
       </TabsContent>
+
+      <div className="mt-6">
+        <div className="flex items-center gap-4 mb-6">
+          <span className="flex-1 border-t border-zinc-300 dark:border-zinc-700" />
+        </div>
+
+        <div className="text-center">
+          <p className="text-sm text-muted-foreground">
+            ¿Ya tienes cuenta?{" "}
+            <Link
+              href="/login"
+              className="text-primary font-medium hover:underline"
+            >
+              Inicia sesión aquí
+            </Link>
+          </p>
+        </div>
+      </div>
     </Tabs>
   );
 }
 
+export default RegisterTabs;
