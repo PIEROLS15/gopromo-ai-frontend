@@ -4,7 +4,7 @@ export const metadata = {
   title: "Registro | GoPromo AI",
 };
 
-export default function RegisterPage() {
+const RegisterPage = () => {
   return (
     <main
       className="min-h-screen bg-background flex flex-col items-center justify-center px-4 py-24">
@@ -12,3 +12,5 @@ export default function RegisterPage() {
     </main>
   );
 }
+
+export default RegisterPage;
