@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,14 +9,19 @@ import { Label } from "@/components/ui/label";
 import { useLogin } from "@/hooks/useLogin";
 
 const LoginForm = () => {
-  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const { form, setForm, errors, loading, handleSubmit } = useLogin(rememberMe);
+  const {
+    handleSubmit,
+    register,
+    errors,
+    isSubmitting,
+    loading,
+    apiError,
+  } = useLogin();
+
   return (
     <div className="w-full max-w-md mx-auto">
       <div className="bg-card border border-border rounded-2xl shadow-xl p-8">
-        {/* Mobile title */}
         <div className="text-center mb-8 lg:hidden">
           <h1 className="text-2xl font-bold">Bienvenido de vuelta</h1>
         </div>
@@ -27,7 +31,6 @@ const LoginForm = () => {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email */}
           <div className="space-y-2">
             <Label className="font-medium">Email</Label>
 
@@ -37,18 +40,15 @@ const LoginForm = () => {
                 type="email"
                 placeholder="tu@email.com"
                 className="pl-10 h-12"
-                value={form.email}
-                onChange={(e) =>
-                  setForm({ ...form, email: e.target.value })
-                } />
+                {...register("email")}
+              />
             </div>
 
-            {errors.email && (
-              <p className="text-sm text-destructive">{errors.email}</p>
+            {errors.email?.message && (
+              <p className="text-sm text-destructive">{errors.email.message}</p>
             )}
           </div>
 
-          {/* Password */}
           <div className="space-y-2">
             <Label className="font-medium">Contraseña</Label>
 
@@ -58,10 +58,8 @@ const LoginForm = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••"
                 className="pl-10 pr-10 h-12"
-                value={form.password}
-                onChange={(e) =>
-                  setForm({ ...form, password: e.target.value })
-                } />
+                {...register("password")}
+              />
 
               <button
                 type="button"
@@ -71,19 +69,19 @@ const LoginForm = () => {
               </button>
             </div>
 
-            {errors.password && (
-              <p className="text-sm text-destructive">{errors.password}</p>
+            {errors.password?.message && (
+              <p className="text-sm text-destructive">
+                {errors.password.message}
+              </p>
             )}
           </div>
 
-          {/* General Error */}
-          {errors.general && (
+          {apiError && (
             <p className="text-sm text-destructive text-center">
-              {errors.general}
+              {apiError}
             </p>
           )}
 
-          {/* Remember + Forgot */}
           <div className="flex items-center justify-between">
             <Label htmlFor="remember" className="flex items-center gap-2 cursor-pointer select-none font-normal">
               <Checkbox id="remember" />
@@ -97,11 +95,14 @@ const LoginForm = () => {
             </button>
           </div>
 
-          <Button type="submit" className="w-full h-12" disabled={loading}>
-            {loading ? "Ingresando..." : "Iniciar Sesión"}
+          <Button
+            type="submit"
+            className="w-full h-12"
+            disabled={loading || isSubmitting}
+          >
+            {loading || isSubmitting ? "Ingresando..." : "Iniciar Sesión"}
           </Button>
 
-          {/* Divider */}
           <div className="flex items-center gap-4">
             <span className="flex-1 border-t border-zinc-300 dark:border-zinc-700" />
             <span className="text-xs uppercase text-muted-foreground">O</span>
@@ -110,9 +111,9 @@ const LoginForm = () => {
 
           <p className="text-center text-sm text-muted-foreground">
             ¿No tienes cuenta?{" "}
-            <button type="button" onClick={() => router.push("/register")} className="text-primary hover:underline">
+            <Link href="/register" className="text-primary hover:underline">
               Regístrate aquí
-            </button>
+            </Link>
           </p>
         </form>
       </div>

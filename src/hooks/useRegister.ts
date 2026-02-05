@@ -1,59 +1,61 @@
 import { useState } from "react";
-import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
-import type { ZodTypeAny } from "zod";
+import type { FieldErrors } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/hooks/use-toast";
 import { RegisterService } from "@/services/register.service";
 import {
   providerRegisterSchema,
   publicRegisterSchema,
+  type ProviderRegisterSchema,
+  type PublicRegisterSchema,
 } from "@/lib/validations/register.schema";
-import {
-  PublicRegisterPayload,
-  ProviderRegisterPayload,
-} from "@/types/register";
+import { PublicRegisterPayload, ProviderRegisterPayload } from "@/types/register";
+import { getErrorMessage } from "@/lib/validations/formUtils";
+
+const getFirstErrorMessage = (errors: FieldErrors) => {
+  const firstError = Object.values(errors)[0];
+  if (!firstError) return null;
+  if ("message" in firstError && typeof firstError.message === "string") {
+    return firstError.message;
+  }
+  return null;
+};
 
 export const useRegister = () => {
   const { toast } = useToast();
   const router = useRouter();
-  const [providerForm, setProviderForm] = useState({
-    representativeName: "",
-    companyName: "",
-    ruc: "",
-    email: "",
-    phone: "",
-    password: "",
-    confirmPassword: "",
-    acceptTerms: false,
+  const [providerLoading, setProviderLoading] = useState(false);
+  const [publicLoading, setPublicLoading] = useState(false);
+  const [providerApiError, setProviderApiError] = useState<string | null>(null);
+  const [publicApiError, setPublicApiError] = useState<string | null>(null);
+
+  const providerForm = useForm<ProviderRegisterSchema>({
+    resolver: zodResolver(providerRegisterSchema),
+    defaultValues: {
+      representativeName: "",
+      companyName: "",
+      ruc: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirmPassword: "",
+      acceptTerms: false,
+    },
   });
 
-  const getErrorMessage = (error: unknown, fallback: string) => {
-    if (error && typeof error === "object" && "message" in error) {
-      return String(error.message);
-    }
-    return fallback;
-  };
-
-  const validateForm = <TData,>(schema: ZodTypeAny, data: TData) => {
-    const parsed = schema.safeParse(data);
-    if (!parsed.success) {
-      toast({
-        title: "Error",
-        description: parsed.error.issues[0]?.message ?? "Formulario inválido",
-        variant: "destructive",
-      });
-      return null;
-    }
-    return parsed.data as TData;
-  };
-  const [publicForm, setPublicForm] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    institution: "",
-    password: "",
-    confirmPassword: "",
-    acceptTerms: false,
+  const publicForm = useForm<PublicRegisterSchema>({
+    resolver: zodResolver(publicRegisterSchema),
+    defaultValues: {
+      fullName: "",
+      email: "",
+      phone: "",
+      institution: "",
+      password: "",
+      confirmPassword: "",
+      acceptTerms: false,
+    },
   });
 
   const registerPublic = async (
@@ -70,77 +72,118 @@ export const useRegister = () => {
     return res;
   };
 
-  const handleProviderSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleProviderSubmit = providerForm.handleSubmit(
+    async (data) => {
+      setProviderApiError(null);
+      try {
+        setProviderLoading(true);
+        const response = await registerProvider({
+          email: data.email,
+          ruc: data.ruc,
+          representativeName: data.representativeName,
+          companyName: data.companyName,
+          phone: data.phone,
+          password: data.password,
+        });
 
-    const parsed = validateForm(providerRegisterSchema, providerForm);
-    if (!parsed) return;
+        toast({
+          title: "¡Éxito!",
+          description: response.message,
+          variant: "success",
+        });
 
-    try {
-      const response = await registerProvider({
-        email: parsed.email,
-        ruc: parsed.ruc,
-        representativeName: parsed.representativeName,
-        companyName: parsed.companyName,
-        phone: parsed.phone,
-        password: parsed.password,
-      });
-
-      toast({
-        title: response.message,
-      });
-
-      router.push("/");
-    } catch (error) {
-      const errorMessage = getErrorMessage(
-        error,
-        "Error al registrar proveedor"
-      );
-
-      toast({
-        title: errorMessage,
-        variant: "destructive",
-      });
+        router.push("/");
+      } catch (error) {
+        const errorMessage = getErrorMessage(
+          error,
+          "Error al registrar proveedor"
+        );
+        setProviderApiError(errorMessage);
+        toast({
+          title: errorMessage,
+          variant: "destructive",
+        });
+      } finally {
+        setProviderLoading(false);
+      }
+    },
+    (errors) => {
+      const message = getFirstErrorMessage(errors);
+      if (message) {
+        toast({
+          title: "Error",
+          description: message,
+          variant: "destructive",
+        });
+      }
     }
-  };
+  );
 
-  const handlePublicSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handlePublicSubmit = publicForm.handleSubmit(
+    async (data) => {
+      setPublicApiError(null);
+      try {
+        setPublicLoading(true);
+        const response = await registerPublic({
+          email: data.email,
+          fullName: data.fullName,
+          educationalInstitution: data.institution || null,
+          phone: data.phone || null,
+          password: data.password,
+        });
 
-    const parsed = validateForm(publicRegisterSchema, publicForm);
-    if (!parsed) return;
+        toast({
+          title: "¡Éxito!",
+          description: response.message,
+          variant: "success",
+        });
 
-    try {
-      const response = await registerPublic({
-        email: parsed.email,
-        fullName: parsed.fullName,
-        educationalInstitution: publicForm.institution || null,
-        phone: parsed.phone || null,
-        password: parsed.password,
-      });
-
-      toast({
-        title: response.message,
-      });
-
-      router.push("/");
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: getErrorMessage(error, "Error al registrar"),
-        variant: "destructive",
-      });
+        router.push("/");
+      } catch (error) {
+        const errorMessage = getErrorMessage(error, "Error al registrar");
+        setPublicApiError(errorMessage);
+        toast({
+          title: errorMessage,
+          variant: "destructive",
+        });
+      } finally {
+        setPublicLoading(false);
+      }
+    },
+    (errors) => {
+      const message = getFirstErrorMessage(errors);
+      if (message) {
+        toast({
+          title: "Error",
+          description: message,
+          variant: "destructive",
+        });
+      }
     }
-  };
+  );
 
   return {
     registerPublic,
     registerProvider,
-    publicForm,
-    setPublicForm,
-    handlePublicSubmit,
-    providerForm,
-    setProviderForm,
-    handleProviderSubmit,
+    provider: {
+      handleSubmit: handleProviderSubmit,
+      register: providerForm.register,
+      control: providerForm.control,
+      errors: providerForm.formState.errors,
+      isSubmitting: providerForm.formState.isSubmitting,
+      loading: providerLoading,
+      apiError: providerApiError,
+      watch: providerForm.watch,
+    },
+    public: {
+      handleSubmit: handlePublicSubmit,
+      register: publicForm.register,
+      control: publicForm.control,
+      errors: publicForm.formState.errors,
+      isSubmitting: publicForm.formState.isSubmitting,
+      loading: publicLoading,
+      apiError: publicApiError,
+      watch: publicForm.watch,
+    },
   };
 };

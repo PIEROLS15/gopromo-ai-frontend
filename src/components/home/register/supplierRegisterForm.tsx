@@ -18,15 +18,17 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { useRegister } from "@/hooks/useRegister";
+import { Controller } from "react-hook-form";
 
 const SupplierRegisterForm = () => {
-  const { providerForm, setProviderForm, handleProviderSubmit } = useRegister();
+  const { provider: provider } = useRegister();
+  const acceptTerms = provider.watch("acceptTerms");
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <form onSubmit={handleProviderSubmit} className="space-y-5">
+    <form onSubmit={provider.handleSubmit} className="space-y-5">
       <div className="space-y-2">
         <Label>Nombre del representante</Label>
         <div className="relative">
@@ -34,13 +36,7 @@ const SupplierRegisterForm = () => {
           <Input
             placeholder="Juan Pérez"
             className="pl-10"
-            value={providerForm.representativeName}
-            onChange={(e) =>
-              setProviderForm({
-                ...providerForm,
-                representativeName: e.target.value,
-              })
-            }
+            {...provider.register("representativeName")}
           />
         </div>
       </div>
@@ -52,10 +48,7 @@ const SupplierRegisterForm = () => {
           <Input
             placeholder="GoPromo S.A."
             className="pl-10"
-            value={providerForm.companyName}
-            onChange={(e) =>
-              setProviderForm({ ...providerForm, companyName: e.target.value })
-            }
+            {...provider.register("companyName")}
           />
         </div>
       </div>
@@ -67,10 +60,7 @@ const SupplierRegisterForm = () => {
           <Input
             placeholder="20123456789"
             className="pl-10"
-            value={providerForm.ruc}
-            onChange={(e) =>
-              setProviderForm({ ...providerForm, ruc: e.target.value })
-            }
+            {...provider.register("ruc")}
           />
         </div>
       </div>
@@ -83,10 +73,7 @@ const SupplierRegisterForm = () => {
             type="email"
             placeholder="contacto@empresa.com"
             className="pl-10"
-            value={providerForm.email}
-            onChange={(e) =>
-              setProviderForm({ ...providerForm, email: e.target.value })
-            }
+            {...provider.register("email")}
           />
         </div>
       </div>
@@ -98,10 +85,7 @@ const SupplierRegisterForm = () => {
           <Input
             placeholder="+51 999 999 999"
             className="pl-10"
-            value={providerForm.phone}
-            onChange={(e) =>
-              setProviderForm({ ...providerForm, phone: e.target.value })
-            }
+            {...provider.register("phone")}
           />
         </div>
       </div>
@@ -114,10 +98,7 @@ const SupplierRegisterForm = () => {
             type={showPassword ? "text" : "password"}
             placeholder="••••••••"
             className="pl-10 pr-10"
-            value={providerForm.password}
-            onChange={(e) =>
-              setProviderForm({ ...providerForm, password: e.target.value })
-            }
+            {...provider.register("password")}
           />
           <button
             type="button"
@@ -137,13 +118,7 @@ const SupplierRegisterForm = () => {
             type={showConfirmPassword ? "text" : "password"}
             placeholder="••••••••"
             className="pl-10 pr-10"
-            value={providerForm.confirmPassword}
-            onChange={(e) =>
-              setProviderForm({
-                ...providerForm,
-                confirmPassword: e.target.value,
-              })
-            }
+            {...provider.register("confirmPassword")}
           />
           <button
             type="button"
@@ -164,19 +139,26 @@ const SupplierRegisterForm = () => {
       </Alert>
 
       <div className="flex items-center gap-2">
-        <Checkbox
-          id="terms-provider"
-          checked={providerForm.acceptTerms}
-          onCheckedChange={(v) =>
-            setProviderForm({ ...providerForm, acceptTerms: v as boolean })
-          }
+        <Controller
+          control={provider.control}
+          name="acceptTerms"
+          render={({ field }) => (
+            <Checkbox
+              id="terms-provider"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+          )}
         />
         <Label htmlFor="terms-provider" className="text-xs font-normal text-muted-foreground cursor-pointer">
           Acepto los términos y condiciones
         </Label>
       </div>
 
-      <Button className="w-full" disabled={!providerForm.acceptTerms}>
+      <Button
+        className="w-full"
+        disabled={!acceptTerms || provider.loading || provider.isSubmitting}
+      >
         Registrar proveedor
       </Button>
 

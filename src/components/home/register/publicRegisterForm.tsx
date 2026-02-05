@@ -7,14 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useRegister } from "@/hooks/useRegister";
+import { Controller } from "react-hook-form";
 
 const PublicRegisterForm = () => {
-  const { publicForm, setPublicForm, handlePublicSubmit } = useRegister();
+  const { public: publicRegister } = useRegister();
+  const acceptTerms = publicRegister.watch("acceptTerms");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <form onSubmit={handlePublicSubmit} className="space-y-5">
+    <form onSubmit={publicRegister.handleSubmit} className="space-y-5">
       <div className="space-y-2">
         <Label>Nombre completo</Label>
         <div className="relative">
@@ -22,10 +24,7 @@ const PublicRegisterForm = () => {
           <Input
             placeholder="Tu nombre completo"
             className="pl-10"
-            value={publicForm.fullName}
-            onChange={(e) =>
-              setPublicForm({ ...publicForm, fullName: e.target.value })
-            }
+            {...publicRegister.register("fullName")}
           />
         </div>
       </div>
@@ -38,10 +37,7 @@ const PublicRegisterForm = () => {
             type="email"
             placeholder="tu@email.com"
             className="pl-10"
-            value={publicForm.email}
-            onChange={(e) =>
-              setPublicForm({ ...publicForm, email: e.target.value })
-            }
+            {...publicRegister.register("email")}
           />
         </div>
       </div>
@@ -53,10 +49,7 @@ const PublicRegisterForm = () => {
           <Input
             placeholder="+51 9 XXXX XXXX"
             className="pl-10"
-            value={publicForm.phone}
-            onChange={(e) =>
-              setPublicForm({ ...publicForm, phone: e.target.value })
-            }
+            {...publicRegister.register("phone")}
           />
         </div>
       </div>
@@ -68,10 +61,7 @@ const PublicRegisterForm = () => {
           <Input
             placeholder="Nombre de tu institución"
             className="pl-10"
-            value={publicForm.institution}
-            onChange={(e) =>
-              setPublicForm({ ...publicForm, institution: e.target.value })
-            }
+            {...publicRegister.register("institution")}
           />
         </div>
       </div>
@@ -84,10 +74,7 @@ const PublicRegisterForm = () => {
             type={showPassword ? "text" : "password"}
             placeholder="Mínimo 8 caracteres"
             className="pl-10 pr-10"
-            value={publicForm.password}
-            onChange={(e) =>
-              setPublicForm({ ...publicForm, password: e.target.value })
-            }
+            {...publicRegister.register("password")}
           />
           <button
             type="button"
@@ -108,13 +95,7 @@ const PublicRegisterForm = () => {
             type={showConfirmPassword ? "text" : "password"}
             placeholder="Repite tu contraseña"
             className="pl-10 pr-10"
-            value={publicForm.confirmPassword}
-            onChange={(e) =>
-              setPublicForm({
-                ...publicForm,
-                confirmPassword: e.target.value,
-              })
-            }
+            {...publicRegister.register("confirmPassword")}
           />
           <button
             type="button"
@@ -127,19 +108,26 @@ const PublicRegisterForm = () => {
       </div>
 
       <div className="flex items-center gap-2">
-        <Checkbox
-          id="terms"
-          checked={publicForm.acceptTerms}
-          onCheckedChange={(v) =>
-            setPublicForm({ ...publicForm, acceptTerms: v as boolean })
-          }
+        <Controller
+          control={publicRegister.control}
+          name="acceptTerms"
+          render={({ field }) => (
+            <Checkbox
+              id="terms"
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+          )}
         />
         <Label htmlFor="terms" className="text-sm font-normal text-muted-foreground cursor-pointer">
           Acepto términos y política de privacidad
         </Label>
       </div>
 
-      <Button className="w-full bg-primary hover:bg-primary/90 text-white font-semibold h-11">
+      <Button
+        className="w-full bg-primary hover:bg-primary/90 text-white font-semibold h-11"
+        disabled={!acceptTerms || publicRegister.loading || publicRegister.isSubmitting}
+      >
         Crear cuenta
       </Button>
 

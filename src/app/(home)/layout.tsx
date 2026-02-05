@@ -14,7 +14,7 @@ export default function ShopLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const hideFooterAndChatbot = pathname === "/register";
+  const hideFooterAndChatbot = pathname === "/register" || pathname === "/login";
 
   return (
     <>
