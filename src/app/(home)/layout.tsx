@@ -1,22 +1,35 @@
-import { Suspense } from "react"
-import Header from "@/components/home/layout/header"
-import { Loader } from "@/components/loader"
-import Footer from "@/components/home/layout/footer"
-import { Chatbot } from "@/components/home/layout/chatbot"
+"use client";
+
+import { Suspense } from "react";
+import { usePathname } from "next/navigation";
+
+import Header from "@/components/home/layout/header";
+import Footer from "@/components/home/layout/footer";
+import { Chatbot } from "@/components/home/layout/chatbot";
+import { Loader } from "@/components/loader";
 
 export default function ShopLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode;
 }) {
-    return (
-        <Suspense fallback={<Loader />}>
-            <Header />
-            {children}
-            <Footer />
+  const pathname = usePathname();
+  const hideFooterAndChatbot = pathname === "/register";
 
-             {/* Chatbot global */}
-            <Chatbot />
-        </Suspense>
-    )
+  return (
+    <>
+      <Suspense fallback={<Loader />}>
+        <Header />
+
+        {children}
+
+        {!hideFooterAndChatbot && <Footer />}
+        {!hideFooterAndChatbot && <Chatbot />}
+      </Suspense>
+    </>
+  );
 }
+
+
+
+

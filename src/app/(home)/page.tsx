@@ -5,20 +5,13 @@ import { useRouter } from "next/navigation";
 import HeroSection from "@/components/home/heroSection";
 import FeaturedPackages, { type Package } from "@/components/home/featuredPackage";
 import TrustSection from "@/components/home/trustSection";
-// import AIChat from "@/components/AIChat";
-// import ChatFloatingButton from "@/components/ChatFloatingButton";
 
-const HomePage = () => {
-    // const [isChatOpen, setIsChatOpen] = useState(false);
+const HomePage = () => {;
     const [, setIsSearchActive] = useState(false);
     const router = useRouter();
 
-    // const handleOpenChat = () => setIsChatOpen(true);
     const handleOpenChat = () => {
-        // por ahora no hace nada
     };
-
-    // const handleCloseChat = () => setIsChatOpen(false);
 
     const handleSelectPackage = (pkg: Package) => {
         router.push(`/reservar/${pkg.id}`);
