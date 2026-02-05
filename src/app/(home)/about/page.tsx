@@ -1,5 +1,3 @@
-"use client";
-
 import Header from "@/components/home/layout/header";
 import HeroSection from "@/components/home/about/heroSection";
 import StatsGrid from "@/components/home/about/statsGrid";
