@@ -1,8 +1,6 @@
 "use client";
 
 import { ThemeProvider } from "@/context/themeContext";
-import { AuthProvider } from "@/context/authContext";
-import { Toaster } from "@/components/ui/toaster";
 
 export function AppProviders({
   children,
@@ -11,11 +9,7 @@ export function AppProviders({
 }) {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        {children}
-        <Toaster />
-      </AuthProvider>
+      {children}
     </ThemeProvider>
   );
 }
-
