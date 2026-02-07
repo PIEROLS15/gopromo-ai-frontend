@@ -15,7 +15,7 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-md",
         ghost: "hover:bg-primary/10 hover:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
-        // PromoTrip AI Custom Variants
+        // GoPromo AI Custom Variants
         hero: "bg-gradient-to-r from-secondary to-orange-500 text-white shadow-orange hover:shadow-lg hover:scale-[1.02] text-base py-6 px-8 rounded-xl font-bold",
         turquoise: "bg-gradient-to-r from-primary to-teal-400 text-primary-foreground shadow-glow hover:shadow-lg hover:scale-[1.02]",
         glass: "bg-white/90 backdrop-blur-sm border border-primary/20 text-primary hover:bg-primary/10",
