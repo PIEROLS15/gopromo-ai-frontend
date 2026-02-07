@@ -6,45 +6,19 @@ import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, CheckCircle2 } from "lucide-react";
 import { useContact } from "@/hooks/useContact";
-import type { ApiError } from "@/types/api";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { contactSchema, type ContactFormData, } from "@/lib/validations/contact.schema";
 
 const ContactForm = () => {
-    const { createContact } = useContact();
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const [apiError, setApiError] = useState<string | null>(null);
-
     const {
-        register,
         handleSubmit,
-        formState: { errors, isSubmitting },
-        reset,
-    } = useForm<ContactFormData>({
-        resolver: zodResolver(contactSchema),
-        defaultValues: {
-            name: "",
-            email: "",
-            phone: "",
-            subject: "",
-            message: "",
-        },
-    });
-
-    const onSubmit = async (data: ContactFormData) => {
-        setApiError(null);
-
-        try {
-            await createContact(data);
-            setIsSubmitted(true);
-            reset();
-        } catch (err: unknown) {
-            const error = err as ApiError;
-            setApiError(error?.message || "Error al enviar mensaje");
-        }
-    };
+        register,
+        errors,
+        isSubmitting,
+        loading,
+        apiError,
+        isSubmitted,
+        successMessage,
+        resetSubmission,
+    } = useContact();
 
     if (isSubmitted) {
         return (
@@ -56,9 +30,9 @@ const ContactForm = () => {
                     ¡Mensaje enviado!
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                    Hemos recibido tu mensaje. Te contactaremos muy pronto.
+                    {successMessage ?? "Hemos recibido tu mensaje. Te contactaremos muy pronto."}
                 </p>
-                <Button variant="outline" onClick={() => setIsSubmitted(false)}>
+                <Button variant="outline" onClick={resetSubmission}>
                     Enviar otro mensaje
                 </Button>
             </Card>
@@ -66,7 +40,7 @@ const ContactForm = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                     <label className="block text-sm font-medium text-foreground mb-2">
@@ -149,9 +123,9 @@ const ContactForm = () => {
                 variant="turquoise"
                 size="lg"
                 className="w-full gap-2"
-                disabled={isSubmitting}
+                disabled={isSubmitting || loading}
             >
-                {isSubmitting ? (
+                {isSubmitting || loading ? (
                     <>
                         <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                         Enviando...

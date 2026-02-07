@@ -1,57 +1,62 @@
 import { useState } from "react";
-import { loginSchema } from "@/lib/validations/login.schema";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/hooks/use-toast";
+import {
+  loginSchema,
+  type LoginSchema,
+} from "@/lib/validations/login.schema";
+import { getErrorMessage } from "@/lib/validations/formUtils";
 import { LoginService } from "@/services/login.service";
 
 export const useLogin = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  const form = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
-
-    const result = loginSchema.safeParse(form);
-    if (!result.success) {
-      const fieldErrors: Record<string, string> = {};
-      result.error.issues.forEach((err) => {
-        const field = err.path[0];
-        if (field) {
-          fieldErrors[field as string] = err.message;
-        }
-      });
-      setErrors(fieldErrors);
-      return;
-    }
-
+  const handleSubmit = form.handleSubmit(async (data) => {
+    setApiError(null);
     try {
       setLoading(true);
-      await LoginService.login(form);
+      const response = await LoginService.login(data);
+      toast({
+        title: "¡Éxito!",
+        description: response.message,
+        variant: "success",
+      });
+      router.push("/");
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        setErrors({ general: error.message });
-      } else if (
-        typeof error === "object" &&
-        error !== null &&
-        "message" in error
-      ) {
-        setErrors({ general: String((error as { message: string }).message) });
-      } else {
-        setErrors({ general: "Error inesperado al iniciar sesión" });
-      }
+      const message = getErrorMessage(
+        error,
+        "Error inesperado al iniciar sesión"
+      );
+      setApiError(message);
+      toast({
+        title: "¡Error!",
+        description: message,
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
-  };
+  });
 
   return {
-    form,
-    setForm,
-    errors,
-    loading,
     handleSubmit,
+    register: form.register,
+    errors: form.formState.errors,
+    isSubmitting: form.formState.isSubmitting,
+    loading,
+    apiError,
   };
 };

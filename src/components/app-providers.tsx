@@ -2,6 +2,14 @@
 
 import { ThemeProvider } from "@/context/themeContext";
 
-export function AppProviders({ children }: { children: React.ReactNode }) {
-    return <ThemeProvider>{children}</ThemeProvider>;
+export function AppProviders({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ThemeProvider>
+      {children}
+    </ThemeProvider>
+  );
 }
