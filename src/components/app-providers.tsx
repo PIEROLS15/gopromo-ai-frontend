@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider } from "@/context/themeContext";
+import { SessionProvider } from "@/context/sessionContext";
 
 export function AppProviders({
   children,
@@ -9,7 +10,7 @@ export function AppProviders({
 }) {
   return (
     <ThemeProvider>
-      {children}
+      <SessionProvider>{children}</SessionProvider>
     </ThemeProvider>
   );
 }
