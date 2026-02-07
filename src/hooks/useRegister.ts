@@ -13,6 +13,7 @@ import {
 } from "@/lib/validations/register.schema";
 import { PublicRegisterPayload, ProviderRegisterPayload } from "@/types/register";
 import { getErrorMessage } from "@/lib/validations/formUtils";
+import { useSession } from "@/context/sessionContext";
 
 const getFirstErrorMessage = (errors: FieldErrors) => {
   const firstError = Object.values(errors)[0];
@@ -26,6 +27,7 @@ const getFirstErrorMessage = (errors: FieldErrors) => {
 export const useRegister = () => {
   const { toast } = useToast();
   const router = useRouter();
+  const { refreshSession } = useSession();
   const [providerLoading, setProviderLoading] = useState(false);
   const [publicLoading, setPublicLoading] = useState(false);
   const [providerApiError, setProviderApiError] = useState<string | null>(null);
@@ -92,6 +94,7 @@ export const useRegister = () => {
           variant: "success",
         });
 
+        await refreshSession();
         router.push("/");
       } catch (error) {
         const errorMessage = getErrorMessage(
@@ -138,6 +141,7 @@ export const useRegister = () => {
           variant: "success",
         });
 
+        await refreshSession();
         router.push("/");
       } catch (error) {
         const errorMessage = getErrorMessage(error, "Error al registrar");

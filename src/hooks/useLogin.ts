@@ -9,10 +9,12 @@ import {
 } from "@/lib/validations/login.schema";
 import { getErrorMessage } from "@/lib/validations/formUtils";
 import { LoginService } from "@/services/login.service";
+import { useSession } from "@/context/sessionContext";
 
 export const useLogin = () => {
   const router = useRouter();
   const { toast } = useToast();
+  const { refreshSession } = useSession();
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
@@ -34,6 +36,7 @@ export const useLogin = () => {
         description: response.message,
         variant: "success",
       });
+      await refreshSession();
       router.push("/");
     } catch (error: unknown) {
       const message = getErrorMessage(

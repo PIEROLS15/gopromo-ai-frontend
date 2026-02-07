@@ -1,12 +1,13 @@
 "use client";
 
-import { Backpack, MessageCircle, Menu, X, User, Settings, Briefcase, LogOut, ChevronDown } from "lucide-react";
+import { Backpack, MessageCircle, Menu, X, User, LayoutDashboard, LogOut, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import ThemeToggle from "@/components/shared/themeToggle";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useSession } from "@/context/sessionContext";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,8 +18,7 @@ import {
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const user = null;
+    const { user, roleName, logout } = useSession();
 
     const pathname = usePathname();
     const router = useRouter();
@@ -32,7 +32,10 @@ const Header = () => {
 
     const isActive = (path: string) => pathname === path;
 
-    const displayName = "Usuario";
+    const displayName =
+        user && "fullName" in user
+            ? user.fullName
+            : user?.representativeName ?? "Usuario";
 
     const getInitials = (name: string) => {
         return (
@@ -45,9 +48,15 @@ const Header = () => {
         );
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await logout();
         router.push("/");
+        router.refresh();
     };
+
+    const showAdminLink = roleName === "Admin";
+    const showProviderLink = roleName === "Supplier";
+    const showPanelLink = showAdminLink || showProviderLink;
 
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-lg border-b border-border shadow-sm">
@@ -76,7 +85,7 @@ const Header = () => {
                                 key={link.href}
                                 href={link.href}
                                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${isActive(link.href)
-                                    ? "bg-primary/20 text-primary"
+                                    ? "bg-primary-light text-primary"
                                     : "text-muted-foreground hover:text-foreground hover:bg-muted"
                                     }`}
                             >
@@ -89,17 +98,18 @@ const Header = () => {
                     <div className="hidden lg:flex items-center gap-3">
                         <ThemeToggle />
 
-                        <Link href="/proveedor">
-                            <Button variant="ghost" size="icon" className="rounded-full">
-                                <Briefcase className="w-4 h-4" />
-                            </Button>
-                        </Link>
-
-                        <Link href="/admin">
-                            <Button variant="ghost" size="icon" className="rounded-full">
-                                <Settings className="w-4 h-4" />
-                            </Button>
-                        </Link>
+                        {showPanelLink && (
+                            <Link href="/admin">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="rounded-full"
+                                    title={showAdminLink ? "Panel Admin" : "Mi Panel"}
+                                >
+                                    <LayoutDashboard className="w-4 h-4" />
+                                </Button>
+                            </Link>
+                        )}
 
                         {user ? (
                             <DropdownMenu>
@@ -110,17 +120,23 @@ const Header = () => {
                                                 {getInitials(displayName)}
                                             </AvatarFallback>
                                         </Avatar>
+                                        <span className="hidden xl:inline text-sm font-medium max-w-[100px] truncate">
+                                            {displayName}
+                                        </span>
                                         <ChevronDown className="w-4 h-4 text-muted-foreground" />
                                     </Button>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-48">
                                     <DropdownMenuItem asChild>
-                                        <Link href="/perfil">Mi Perfil</Link>
+                                        <Link href="/perfil" className="flex items-center gap-2 cursor-pointer">
+                                            <User className="w-4 h-4" />
+                                            Mi Perfil
+                                        </Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
                                         onClick={handleLogout}
-                                        className="text-destructive cursor-pointer"
+                                        className="text-destructive focus:text-destructive cursor-pointer"
                                     >
                                         <LogOut className="w-4 h-4 mr-2" />
                                         Cerrar sesión
@@ -158,7 +174,7 @@ const Header = () => {
 
                 {/* Mobile & Tablet Menu */}
                 {isMenuOpen && (
-                    <div className="lg:hidden py-4 border-t border-border animate-in slide-in-from-top duration-200">
+                    <div className="lg:hidden py-4 border-t border-border animate-slide-in-up">
                         <nav className="flex flex-col gap-2 mb-4">
                             {navLinks.map((link) => (
                                 <Link
@@ -181,24 +197,19 @@ const Header = () => {
                                 <ThemeToggle />
                             </div>
 
-                            <Link href="/proveedor" onClick={() => setIsMenuOpen(false)}>
-                                <Button variant="ghost" className="w-full justify-start gap-2">
-                                    <Briefcase className="w-4 h-4" />
-                                    Panel Proveedor
-                                </Button>
-                            </Link>
-
-                            <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
-                                <Button variant="ghost" className="w-full justify-start gap-2">
-                                    <Settings className="w-4 h-4" />
-                                    Panel Admin
-                                </Button>
-                            </Link>
+                            {showPanelLink && (
+                                <Link href="/admin" onClick={() => setIsMenuOpen(false)}>
+                                    <Button variant="ghost" className="w-full gap-2">
+                                        <LayoutDashboard className="w-4 h-4" />
+                                        {showAdminLink ? "Panel Admin" : "Mi Panel"}
+                                    </Button>
+                                </Link>
+                            )}
 
                             {user ? (
                                 <>
                                     <Link href="/perfil" onClick={() => setIsMenuOpen(false)} className="w-full">
-                                        <Button variant="outline" className="w-full justify-start gap-2">
+                                        <Button variant="outline" className="w-full gap-2">
                                             <Avatar className="w-6 h-6">
                                                 <AvatarFallback className="text-xs bg-primary text-primary-foreground">
                                                     {getInitials(displayName)}
@@ -209,7 +220,7 @@ const Header = () => {
                                     </Link>
                                     <Button
                                         variant="ghost"
-                                        className="w-full justify-start gap-2 text-destructive hover:text-destructive"
+                                        className="w-full gap-2 text-destructive hover:text-destructive"
                                         onClick={() => {
                                             handleLogout();
                                             setIsMenuOpen(false);
@@ -221,7 +232,7 @@ const Header = () => {
                                 </>
                             ) : (
                                 <Link href="/login" onClick={() => setIsMenuOpen(false)} className="w-full">
-                                    <Button variant="outline" className="w-full justify-start gap-2">
+                                    <Button variant="outline" className="w-full gap-2">
                                         <User className="w-4 h-4" />
                                         Ingresar
                                     </Button>
