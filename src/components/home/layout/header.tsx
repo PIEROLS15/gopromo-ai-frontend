@@ -128,7 +128,7 @@ const Header = () => {
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent align="end" className="w-48">
                                     <DropdownMenuItem asChild>
-                                        <Link href="/profile" className="flex items-center gap-2 cursor-pointer">
+                                        <Link href="/perfil" className="flex items-center gap-2 cursor-pointer">
                                             <User className="w-4 h-4" />
                                             Mi Perfil
                                         </Link>
@@ -208,7 +208,7 @@ const Header = () => {
 
                             {user ? (
                                 <>
-                                    <Link href="/profile" onClick={() => setIsMenuOpen(false)} className="w-full">
+                                    <Link href="/perfil" onClick={() => setIsMenuOpen(false)} className="w-full">
                                         <Button variant="outline" className="w-full gap-2">
                                             <Avatar className="w-6 h-6">
                                                 <AvatarFallback className="text-xs bg-primary text-primary-foreground">
