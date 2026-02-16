@@ -1,27 +1,31 @@
 "use client";
-import { useState } from "react";
+import { useSession } from "@/context/sessionContext";
+import type { User, Supplier } from "@/types/login";
+ 
 
 import ProfileHeader from "@/components/home/profile/profileHeader";
 import ProfileAvatarCard from "@/components/home/profile/profileAvatarCard";
-import UserProfileForm from "@/components/home/profile/userProfileForm";
-import SupplierProfileForm from "@/components/home/profile/supplierProfileForm";
-import SecurityCard from "@/components/home/profile/profileSecurityCard";
+import ProfileDataCard from "@/components/home/profile/profileDataCard";
+import ProfileSecurityCard from "@/components/home/profile/profileSecurityCard";
 
 const ProfilePage = () => {
-    const [role] = useState<"USER" | "SUPPLIER">("USER");
+  const { user, loading } = useSession();
+  const currentUser = user as User | Supplier | null;
+  const roleNameFromUser = (currentUser?.role?.name ?? "").toString();
+  const isSupplier: boolean = roleNameFromUser.toUpperCase() === "SUPPLIER";
+  const headerRole = (isSupplier ? "SUPPLIER" : "USER") as "USER" | "SUPPLIER";
+    if (loading) {
+      return <div className="loading">Cargando perfil...</div>;
+    }
     return (
         <>
             <div className="min-h-screen bg-background">
                 <main className="pt-28 pb-16 flex justify-center">
                     <div className="w-full max-w-4xl px-4 space-y-6">
-                        <ProfileHeader role={role} />
-                        <ProfileAvatarCard role={role} />
-                        {role === "SUPPLIER" ? (
-                            <SupplierProfileForm />
-                        ) : (
-                            <UserProfileForm />
-                        )}
-                        <SecurityCard />
+                        <ProfileHeader role={headerRole} />
+                        <ProfileAvatarCard role={headerRole} />
+                        <ProfileDataCard isSupplier={isSupplier} initialUser={user ?? undefined} />
+                        <ProfileSecurityCard />
                     </div>
                 </main>
             </div>
