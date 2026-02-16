@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Users, MapPin, Star, Shield, ChevronRight } from "lucide-react";
+import { Clock, Users, MapPin, Shield, ChevronRight } from "lucide-react";
 import { useFeaturedPackages } from "@/hooks/useFeaturePackages";
 
 interface Package {
@@ -15,10 +15,8 @@ interface Package {
   image: string;
   price: number;
   originalPrice?: number;
-  duration: string;
-  groupSize: string;
-  rating: number;
-  reviews: number;
+  duration: string; // e.g. "3 días"
+  minStudentsLabel: string; // e.g. "Mínimo 5 estudiantes"
   level: string;
   verified: boolean;
   type: "aventura" | "educativo" | "cultural" | "relajación";
@@ -80,34 +78,28 @@ const PackageCard = ({ pkg, onSelect }: PackageCardProps) => (
         {pkg.title}
       </h3>
 
-      <div className="flex items-center gap-1 text-muted-foreground text-sm mb-3">
-        <MapPin className="w-4 h-4 text-primary" />
-        <span>{pkg.destination}</span>
-      </div>
-
-      <div className="flex items-center gap-2 mb-4">
-        <div className="flex items-center gap-1 text-secondary">
-          <Star className="w-4 h-4 fill-current" />
-          <span className="font-bold text-sm">{pkg.rating}</span>
+      <div className="flex flex-col gap-1 text-sm text-muted-foreground mb-4">
+        <div className="flex items-center gap-1">
+          <MapPin className="w-4 h-4 text-primary" />
+          <span>{pkg.destination}</span>
         </div>
-        <span className="text-muted-foreground text-sm">
-          ({pkg.reviews} reseñas)
-        </span>
-        <Badge variant="outline" className="ml-auto text-xs">
-          {pkg.level}
-        </Badge>
-      </div>
-
-      <div className="flex flex-wrap gap-3 text-sm text-muted-foreground mb-4">
         <div className="flex items-center gap-1">
           <Clock className="w-4 h-4 text-primary" />
           <span>{pkg.duration}</span>
         </div>
         <div className="flex items-center gap-1">
           <Users className="w-4 h-4 text-primary" />
-          <span>{pkg.groupSize}</span>
+          <span>{pkg.minStudentsLabel}</span>
         </div>
       </div>
+
+      <div className="flex justify-end mb-4">
+        <Badge variant="outline" className="text-xs">
+          {pkg.level}
+        </Badge>
+      </div>
+
+      
 
       <Button
         variant="outline"

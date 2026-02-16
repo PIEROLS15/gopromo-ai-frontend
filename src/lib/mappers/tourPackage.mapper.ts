@@ -4,18 +4,27 @@ import { Package } from "@/components/home/featuredPackage";
 export const mapTourPackageToHome = (
   pkg: TourPackageResponse
 ): Package => {
+  // Helper to capitalize only the first letter of each name and lowercase the rest
+  const cap = (s?: string) => {
+    if (!s) return "";
+    const t = String(s);
+    return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+  };
+  const deptName = cap(pkg.district?.province?.department?.name);
+  const provName = cap(pkg.district?.province?.name);
+  const distName = cap(pkg.district?.name);
+  const destination = [deptName, provName, distName].filter((n) => n).join(", ");
+
   return {
     id: pkg.id,
     title: pkg.name,
-    destination: `${pkg.district.province.department.name} - ${pkg.district.name}`,
+    destination,
     image: pkg.images?.[0]?.url || "/placeholder.jpg",
     price: pkg.pricePersona,
-    duration: "2 días", // temporal hasta que backend lo tenga
-    groupSize: "20-40 estudiantes", // temporal
-    rating: 4.8, // temporal
-    reviews: 0,
+    duration: `${pkg.days ?? 0} días`,
+    minStudentsLabel: `Mínimo ${pkg.minStudents ?? 0} estudiantes`,
     level: pkg.educationLevel.name,
     verified: true,
     type: pkg.category.name.toLowerCase() as any,
-  };
+  } as any;
 };

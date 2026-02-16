@@ -24,4 +24,6 @@ export interface TourPackageResponse {
   images: {
     url: string;
   }[];
+  days?: number;
+  minStudents?: number;
 }
