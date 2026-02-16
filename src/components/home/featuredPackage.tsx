@@ -6,21 +6,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, Users, MapPin, Shield, ChevronRight } from "lucide-react";
-import { useFeaturedPackages } from "@/hooks/useFeaturePackages";
+import { Package } from "@/types/homePackage";
+import { useTourPackages } from "@/hooks/useTourPackages";
 
-interface Package {
-  id: number;
-  title: string;
-  destination: string;
-  image: string;
-  price: number;
-  originalPrice?: number;
-  duration: string; // e.g. "3 días"
-  minStudentsLabel: string; // e.g. "Mínimo 5 estudiantes"
-  level: string;
-  verified: boolean;
-  type: "aventura" | "educativo" | "cultural" | "relajación";
-}
+// Package interface is now defined in /types/homePackage
 
 const typeColors: Record<string, "turquoise" | "orange" | "success"> = {
   aventura: "orange",
@@ -122,7 +111,7 @@ interface FeaturedPackagesProps {
 
 const FeaturedPackages = ({ onSelectPackage }: FeaturedPackagesProps) => {
   const router = useRouter();
-  const { packages, loading } = useFeaturedPackages();
+  const { packages, loading } = useTourPackages();
 
   const handleSelect = (pkg: Package) => {
     onSelectPackage?.(pkg);
@@ -173,5 +162,4 @@ const FeaturedPackages = ({ onSelectPackage }: FeaturedPackagesProps) => {
 };
 
 export default FeaturedPackages;
-export type { Package };
 

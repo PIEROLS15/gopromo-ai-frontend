@@ -1,5 +1,5 @@
 import { TourPackageResponse } from "@/types/tourPackage";
-import { Package } from "@/components/home/featuredPackage";
+import { Package } from "@/types/homePackage";
 
 export const mapTourPackageToHome = (
   pkg: TourPackageResponse
@@ -26,5 +26,5 @@ export const mapTourPackageToHome = (
     level: pkg.educationLevel.name,
     verified: true,
     type: pkg.category.name.toLowerCase() as any,
-  } as any;
+  } as Package;
 };

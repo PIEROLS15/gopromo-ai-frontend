@@ -3,9 +3,9 @@
 import { useEffect, useState } from "react";
 import { TourPackageService } from "@/services/tourPackage.service";
 import { mapTourPackageToHome } from "@/lib/mappers/tourPackage.mapper";
-import { Package } from "@/components/home/featuredPackage";
+import { Package } from "@/types/homePackage";
 
-export const useFeaturedPackages = () => {
+export const useTourPackages = () => {
   const [packages, setPackages] = useState<Package[]>([]);
   const [loading, setLoading] = useState(true);
 
