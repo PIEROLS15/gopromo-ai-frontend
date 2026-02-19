@@ -1,7 +1,7 @@
 import { Building2, User } from "lucide-react";
 
 interface Props {
-    role: "USER" | "SUPPLIER";
+    role: "User" | "Supplier";
 }
 
 const ProfileHeader = ({ role }: Props) => {
@@ -9,17 +9,17 @@ const ProfileHeader = ({ role }: Props) => {
         <>
             <div className="text-center mb-8">
                 <div className="flex items-center justify-center gap-2 mb-2">
-                    {role === "SUPPLIER" ? (
+                    {role === "Supplier" ? (
                         <Building2 className="w-6 h-6" />
                     ) : (
                         <User className="w-6 h-6" />
                     )}
                     <h1 className="text-3xl font-bold text-foreground">
-                        {role === "SUPPLIER" ? "Datos de la Empresa" : "Mi Perfil"}
+                        {role === "Supplier" ? "Datos de la Empresa" : "Mi Perfil"}
                     </h1>
                 </div>
                 <p className="text-muted-foreground">
-                    {role === "SUPPLIER"
+                    {role === "Supplier"
                         ? "Administra la información de tu empresa"
                         : "Administra tu información personal"}
                 </p>
