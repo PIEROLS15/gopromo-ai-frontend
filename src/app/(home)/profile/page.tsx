@@ -12,8 +12,7 @@ const ProfilePage = () => {
   const { user, loading } = useSession();
   const currentUser = user as User | Supplier | null;
   const roleNameFromUser = (currentUser?.role?.name ?? "").toString();
-  const isSupplier: boolean = roleNameFromUser.toUpperCase() === "SUPPLIER";
-  const headerRole = (isSupplier ? "SUPPLIER" : "USER") as "USER" | "SUPPLIER";
+  const headerRole = (roleNameFromUser.toUpperCase() === "SUPPLIER" ? "Supplier" : "User") as "User" | "Supplier";
     if (loading) {
       return <div className="loading">Cargando perfil...</div>;
     }
@@ -24,7 +23,7 @@ const ProfilePage = () => {
                     <div className="w-full max-w-4xl px-4 space-y-6">
                         <ProfileHeader role={headerRole} />
                         <ProfileAvatarCard role={headerRole} />
-                        <ProfileDataCard isSupplier={isSupplier} initialUser={user ?? undefined} />
+                        <ProfileDataCard initialUser={user ?? undefined} />
                         <ProfileSecurityCard />
                     </div>
                 </main>

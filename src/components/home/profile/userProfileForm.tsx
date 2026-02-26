@@ -1,77 +1,26 @@
 import { User, Mail, Phone, GraduationCap, Save } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { useSession } from "@/context/sessionContext";
-import UserService from "@/services/user.service";
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import type { UserInitial } from "@/types/login";
+import { useUserProfileForm } from "@/hooks/useUserProfileForm";
 
 interface Props {
-  initialData?: {
-    fullName?: string;
-    email?: string;
-    phone?: string;
-    educationalInstitution?: string;
-  };
+  initialData?: UserInitial;
 }
 
 const UserProfileForm = ({ initialData }: Props) => {
-  const { toast } = useToast();
-  const { refreshSession, user } = useSession();
-  type UserRecord = { fullName?: string; email?: string; phone?: string; educationalInstitution?: string };
-  const currentUser = (user as unknown) as UserRecord | null;
-  const [apiError, setApiError] = useState<string | null>(null);
-  const [fullName, setFullName] = useState<string>(initialData?.fullName ?? (currentUser?.fullName ?? ""));
-  const [phone, setPhone] = useState<string>(initialData?.phone ?? (currentUser?.phone ?? ""));
-  const [education, setEducation] = useState<string>(
-      initialData?.educationalInstitution ?? (currentUser?.educationalInstitution ?? "")
-    );
-  const email = currentUser?.email ?? initialData?.email ?? "";
+  const {
+    fullName, setFullName,
+    phone, setPhone,
+    education, setEducation,
+    email,
+    apiError,
+    handleSubmit,
+  } = useUserProfileForm(initialData);
 
-    React.useEffect(() => {
-      if (user) {
-        if (currentUser?.fullName) setFullName(currentUser.fullName);
-        if (currentUser?.phone) setPhone(currentUser.phone);
-        if (currentUser?.educationalInstitution) setEducation(currentUser.educationalInstitution);
-      }
-    }, [user, currentUser?.fullName, currentUser?.phone, currentUser?.educationalInstitution, education]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // Basic client-side validation to prevent invalid payloads
-    if (!fullName?.trim()) {
-      const msg = "El nombre es obligatorio";
-      setApiError(msg);
-      toast({ title: "Error", description: msg, variant: "destructive" });
-      return;
-    }
-    if (!phone?.trim()) {
-      const msg = "El teléfono es obligatorio";
-      setApiError(msg);
-      toast({ title: "Error", description: msg, variant: "destructive" });
-      return;
-    }
-    try {
-        setApiError(null);
-        const payload: { fullName?: string; phone?: string } = { fullName, phone };
-        // Debug payload sent to API (remove in production)
-        console.debug("Profile update payload (user):", payload);
-        const res = await UserService.updateMe(payload);
-        toast({ title: "Éxito", description: res.message, variant: "success" });
-        await refreshSession();
-      } catch (err) {
-        let message = "No se pudo actualizar el perfil";
-        if (err && typeof err === 'object') {
-          const e = err as { message?: string; data?: { message?: string } };
-          message = e.message ?? e.data?.message ?? message;
-        }
-        setApiError(message);
-        toast({ title: "Error", description: message, variant: "destructive" });
-      }
-    };
-
-    return (
+  return (
         <>
             <div className="flex items-center gap-2 mb-2">
                 <User className="w-5 h-5" />

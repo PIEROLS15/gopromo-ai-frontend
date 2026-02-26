@@ -2,58 +2,24 @@ import { Building2, User, Phone, Save, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import React, { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { useSession } from "@/context/sessionContext";
-import UserService from "@/services/user.service";
+import React from "react";
+import type { SupplierInitial } from "@/types/login";
+import { useSupplierProfileForm } from "@/hooks/useSupplierProfileForm";
 
 interface Props {
-  initialData?: {
-    representativeName?: string;
-    companyName?: string;
-    email?: string;
-    phone?: string;
-    ruc?: string;
-  };
+  initialData?: SupplierInitial;
 }
 
 const SupplierProfileForm = ({ initialData }: Props) => {
-  const { refreshSession } = useSession();
-  const { toast } = useToast();
-  const [apiError, setApiError] = useState<string | null>(null);
-  const [representativeName, setRepresentativeName] = useState<string>(initialData?.representativeName ?? "");
-  const [companyName, setCompanyName] = useState<string>(initialData?.companyName ?? "");
-  const [email] = useState<string>(initialData?.email ?? "");
-  const [phone, setPhone] = useState<string>(initialData?.phone ?? "");
-  const [ruc] = useState<string>(initialData?.ruc ?? "");
-  const [submitting, setSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitting(true);
-    try {
-      const payload: { representativeName?: string; companyName?: string; phone?: string } = {
-        representativeName,
-        companyName,
-        phone,
-      };
-      const res = await UserService.updateMe(payload) as unknown as { message?: string };
-      setApiError(null);
-      const message = res?.message ?? "Datos actualizados";
-      toast({ title: "Éxito", description: message, variant: "success" });
-      await refreshSession();
-    } catch (err: unknown) {
-      let message = "No se pudo actualizar la empresa";
-      if (typeof err === 'object' && err !== null) {
-        const e = err as { message?: string; data?: { message?: string }; errors?: Record<string, string[]> };
-        message = e.message ?? e.data?.message ?? (e.errors ? Object.values(e.errors).flat().join("; ") : message);
-      }
-      setApiError(message);
-      toast({ title: "Error", description: message, variant: "destructive" });
-    } finally {
-      setSubmitting(false);
-    }
-  };
+  const {
+    representativeName, setRepresentativeName,
+    companyName, setCompanyName,
+    email, phone, setPhone,
+    ruc,
+    submitting,
+    apiError,
+    handleSubmit,
+  } = useSupplierProfileForm(initialData);
 
   return (
     <>

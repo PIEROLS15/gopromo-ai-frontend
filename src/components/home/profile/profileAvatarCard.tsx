@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Card, CardContent, CardHeader, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useSession } from "@/context/sessionContext";
+import { useProfileAvatar } from "@/hooks/useProfileAvatar";
 import type { User, Supplier } from "@/types/login";
 
 interface Props {
@@ -14,41 +15,12 @@ const ProfileAvatarCard = ({ role }: Props) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   type CurrentUser = User | Supplier | null;
   const currentUser = user as unknown as CurrentUser;
-  const isUser = (u: unknown): u is User => {
-    if (typeof u !== "object" || u === null) return false;
-    const o = u as Record<string, unknown>;
-    return typeof o["fullName"] === "string";
-  };
-  const isSupplier = (u: unknown): u is Supplier => {
-    if (typeof u !== "object" || u === null) return false;
-    const o = u as Record<string, unknown>;
-    return typeof o["representativeName"] === "string";
-  };
-  const displayName = isUser(currentUser)
-    ? (currentUser as User).fullName
-    : isSupplier(currentUser)
-      ? (currentUser as Supplier).representativeName
-      : role === "Supplier"
-        ? "Proveedor"
-        : "Usuario";
-  const initials = displayName
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((n: string) => n.charAt(0))
-    .join("")
-    .toUpperCase();
-  const roleNameRaw = currentUser?.role?.name ?? null;
-  let roleNameDisplay: string = "Usuario";
-  if (typeof roleNameRaw === "string") {
-    const r = roleNameRaw.toUpperCase();
-    if (r === "User") {
-      roleNameDisplay = "Usuario";
-    } else if (r === "Supplier".toUpperCase()) {
-      roleNameDisplay = "Proveedor de Servicios";
-    } else {
-      roleNameDisplay = roleNameRaw;
-    }
-  }
+
+  const { displayName, initials, roleNameDisplay } = useProfileAvatar(
+    currentUser,
+    role
+  );
+
   return (
     <>
       <Card className="bg-card border border-white/80 shadow-sm">
