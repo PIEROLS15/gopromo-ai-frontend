@@ -2,19 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { TourPackageService } from "@/services/tourPackage.service";
-import { mapTourPackageToHome } from "@/lib/mappers/tourPackage.mapper";
-import { Package } from "@/types/homePackage";
+import { TourPackageResponse } from "@/types/tourPackage";
 
-export const useTourPackages = () => {
-  const [packages, setPackages] = useState<Package[]>([]);
+export const useTourPackages = (page: number = 1, limit: number = 3) => {
+  const [packages, setPackages] = useState<TourPackageResponse[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await TourPackageService.getFeatured();
-        const mapped = res.data.map(mapTourPackageToHome);
-        setPackages(mapped);
+        const res = await TourPackageService.getAll(page, limit);
+        // Use backend types directly
+        setPackages(res.data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -23,7 +22,7 @@ export const useTourPackages = () => {
     };
 
     fetchData();
-  }, []);
+  }, [page, limit]);
 
   return { packages, loading };
 };

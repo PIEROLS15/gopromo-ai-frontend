@@ -5,115 +5,117 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Users, MapPin, Shield, ChevronRight } from "lucide-react";
-import { Package } from "@/types/homePackage";
+import { Clock, Users, MapPin, ChevronRight } from "lucide-react";
+import { TourPackageResponse } from "@/types/tourPackage";
 import { useTourPackages } from "@/hooks/useTourPackages";
 
-// Package interface is now defined in /types/homePackage
+// Using TourPackageResponse directly from /types/tourPackage
 
 const typeColors: Record<string, "turquoise" | "orange" | "success"> = {
   aventura: "orange",
   educativo: "turquoise",
   cultural: "success",
   relajación: "turquoise",
+  relajacion: "turquoise",
 };
 
 interface PackageCardProps {
-  pkg: Package;
-  onSelect: (pkg: Package) => void;
+  pkg: TourPackageResponse;
+  onSelect: (pkg: TourPackageResponse) => void;
 }
 
-const PackageCard = ({ pkg, onSelect }: PackageCardProps) => (
-  <Card
-    variant="package"
-    className="group cursor-pointer"
-    onClick={() => onSelect(pkg)}
-  >
-    <div className="relative h-48 md:h-56 overflow-hidden">
-      <Image
-        src={pkg.image}
-        alt={pkg.title}
-        fill
-        className="object-cover transition-transform duration-500 group-hover:scale-110"
-      />
-      <div className="absolute inset-0 bg-linear-to-t from-foreground/60 to-transparent" />
+const PackageCard = ({ pkg, onSelect }: PackageCardProps) => {
+  // Build destination as Departamento, Provincia, Distrito with proper capitalization
+  const cap = (s?: string) => {
+    if (!s) return "";
+    const t = String(s);
+    return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+  };
+  const deptName = cap(pkg.district?.province?.department?.name);
+  const provName = cap(pkg.district?.province?.name);
+  const distName = cap(pkg.district?.name);
+  const destination = [deptName, provName, distName].filter((n) => n).join(", ");
 
-      <div className="absolute top-3 left-3 flex flex-wrap gap-2">
-        <Badge variant={typeColors[pkg.type]}>
-          {pkg.type.charAt(0).toUpperCase() + pkg.type.slice(1)}
-        </Badge>
-        {pkg.verified && (
-          <Badge variant="verified">
-            <Shield className="w-3 h-3" />
-            Verificado
+  const image = pkg.images?.[0]?.url ?? "/placeholder.jpg";
+  const price = pkg.pricePersona;
+  const duration = `${pkg.days ?? 0} días`;
+  const minLabel = `Mínimo ${pkg.minStudents ?? 0} estudiantes`;
+  const level = pkg.educationLevel?.name ?? "";
+  const typeKey = (pkg.categoryPackage?.name ?? "").toLowerCase();
+  const typeVariant = typeColors[typeKey] ?? typeColors["educativo"];
+
+  return (
+    <Card
+      variant="package"
+      className="group cursor-pointer"
+      onClick={() => onSelect(pkg)}
+    >
+      <div className="relative h-48 md:h-56 overflow-hidden">
+        <Image
+          src={image}
+          alt={pkg.name}
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
+        />
+        <div className="absolute bottom-3 right-3">
+          <Badge variant="price" className="text-lg">
+            S/{price}
           </Badge>
-        )}
-      </div>
-
-      <div className="absolute bottom-3 right-3">
-        <Badge variant="price" className="text-lg">
-          S/{pkg.price}
-          {pkg.originalPrice && (
-            <span className="ml-2 text-xs line-through opacity-70">
-              S/{pkg.originalPrice}
-            </span>
-          )}
-        </Badge>
-      </div>
-    </div>
-
-    <CardContent className="p-4 md:p-5">
-      <h3 className="font-bold text-foreground text-base md:text-lg leading-tight line-clamp-2 mb-2">
-        {pkg.title}
-      </h3>
-
-      <div className="flex flex-col gap-1 text-sm text-muted-foreground mb-4">
-        <div className="flex items-center gap-1">
-          <MapPin className="w-4 h-4 text-primary" />
-          <span>{pkg.destination}</span>
         </div>
-        <div className="flex items-center gap-1">
-          <Clock className="w-4 h-4 text-primary" />
-          <span>{pkg.duration}</span>
-        </div>
-        <div className="flex items-center gap-1">
-          <Users className="w-4 h-4 text-primary" />
-          <span>{pkg.minStudentsLabel}</span>
-        </div>
+        <div className="absolute inset-0 bg-linear-to-t from-foreground/60 to-transparent" />
       </div>
 
-      <div className="flex justify-end mb-4">
-        <Badge variant="outline" className="text-xs">
-          {pkg.level}
-        </Badge>
-      </div>
+      <CardContent className="p-4 md:p-5">
+        <h3 className="font-bold text-foreground text-base md:text-lg leading-tight line-clamp-2 mb-2">
+          {pkg.name}
+        </h3>
 
-      
+        <div className="flex flex-col gap-1 text-sm text-muted-foreground mb-4">
+          <div className="flex items-center gap-1">
+            <MapPin className="w-4 h-4 text-primary" />
+            <span>{destination}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Clock className="w-4 h-4 text-primary" />
+            <span>{duration}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Users className="w-4 h-4 text-primary" />
+            <span>{minLabel}</span>
+          </div>
+        </div>
 
-      <Button
-        variant="outline"
-        className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all"
-        onClick={(e) => {
-          e.stopPropagation();
-          onSelect(pkg);
-        }}
-      >
-        Ver detalles
-        <ChevronRight className="w-4 h-4 ml-1" />
-      </Button>
-    </CardContent>
-  </Card>
-);
+        <div className="flex justify-end mb-4">
+          <Badge variant="outline" className="text-xs">
+            {level}
+          </Badge>
+        </div>
+
+        <Button
+          variant="outline"
+          className="w-full group-hover:bg-primary group-hover:text-primary-foreground transition-all"
+          onClick={(e) => {
+            e.stopPropagation();
+            onSelect(pkg);
+          }}
+        >
+          Ver detalles
+          <ChevronRight className="w-4 h-4 ml-1" />
+        </Button>
+      </CardContent>
+    </Card>
+  );
+};
 
 interface FeaturedPackagesProps {
-  onSelectPackage: (pkg: Package) => void;
+  onSelectPackage: (pkg: TourPackageResponse) => void;
 }
 
 const FeaturedPackages = ({ onSelectPackage }: FeaturedPackagesProps) => {
   const router = useRouter();
   const { packages, loading } = useTourPackages();
 
-  const handleSelect = (pkg: Package) => {
+  const handleSelect = (pkg: TourPackageResponse) => {
     onSelectPackage?.(pkg);
     router.push(`/paquete/${pkg.id}`);
   };

@@ -2,10 +2,10 @@ import { apiFetch } from "./api";
 import { TourPackageResponse } from "@/types/tourPackage";
 
 export const TourPackageService = {
-  getFeatured: () =>
+  getAll: (page: number, limit: number) =>
     apiFetch<{
       data: TourPackageResponse[];
-    }>("/api/v1/tour-packages?page=1&limit=3"),
+    }>(`/api/v1/tour-packages?page=${page}&limit=${limit}`),
 
   search: (keyword: string) =>
     apiFetch<TourPackageResponse[]>(

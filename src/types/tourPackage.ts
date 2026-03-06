@@ -13,7 +13,8 @@ export interface TourPackageResponse {
       };
     };
   };
-  category: {
+  // Prisma: categoryPackage, not category
+  categoryPackage?: {
     id: number;
     name: string;
   };
@@ -26,4 +27,12 @@ export interface TourPackageResponse {
   }[];
   days?: number;
   minStudents?: number;
+  supplier?: {
+    id: number;
+    companyName?: string;
+  };
+  promotions?: any[];
+  offers?: any[];
+  createdAt?: string;
+  updatedAt?: string;
 }
