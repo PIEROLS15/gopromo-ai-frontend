@@ -158,3 +158,6 @@ const FeaturedPackages = ({ onSelectPackage }: FeaturedPackagesProps) => {
 
 export default FeaturedPackages;
 
+// Re-export a local alias to align with existing imports that expect a 'Package' type
+// This reflects the backend model TourPackageResponse for type compatibility
+export type Package = TourPackageResponse;
