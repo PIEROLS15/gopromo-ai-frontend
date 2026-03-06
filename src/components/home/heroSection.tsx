@@ -3,10 +3,11 @@
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Search, Sparkles, MapPin, Clock, Star } from "lucide-react";
+import { Search, Sparkles, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TourPackageService } from "@/services/tourPackage.service";
+import { TourPackageResponse } from "@/types/tourPackage";
 
 interface HeroSectionProps {
   onOpenChat: () => void;
@@ -19,7 +20,6 @@ interface PackageSuggestion {
   destination: string;
   price: number;
   duration: string;
-  rating: number;
   image: string;
 }
 
@@ -48,15 +48,25 @@ const HeroSection = ({ onOpenChat, onSearchActiveChange }: HeroSectionProps) => 
       try {
         const response = await TourPackageService.search(searchQuery);
 
-        const mapped = response.map((pkg: any) => ({
-          id: pkg.id,
-          title: pkg.name,
-          destination: pkg.destination,
-          price: pkg.price,
-          duration: pkg.duration,
-          rating: pkg.rating,
-          image: pkg.images?.[0]?.url || "/placeholder.svg",
-        }));
+        const cap = (s?: string) => {
+          if (!s) return "";
+          const t = String(s);
+          return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
+        };
+        const mapped = response.map((pkg: TourPackageResponse) => {
+          const deptName = cap(pkg.district?.province?.department?.name);
+          const provName = cap(pkg.district?.province?.name);
+          const distName = cap(pkg.district?.name);
+          const dest = [deptName, provName, distName].filter((n) => n).join(", ");
+          return {
+            id: pkg.id,
+            title: pkg.name,
+            destination: dest,
+            price: pkg.pricePersona,
+            duration: `${pkg.days ?? 0} días`,
+            image: pkg.images?.[0]?.url || "/placeholder.svg",
+          };
+        });
 
         setSuggestions(mapped);
         setShowSuggestions(true);
@@ -210,8 +220,6 @@ const HeroSection = ({ onOpenChat, onSearchActiveChange }: HeroSectionProps) => 
                           <div className="flex items-center gap-1 text-xs text-muted-foreground">
                             <Clock className="w-3 h-3" />
                             {pkg.duration}
-                            <Star className="w-3 h-3 text-secondary ml-1" />
-                            {pkg.rating}
                           </div>
                         </div>
                       </button>

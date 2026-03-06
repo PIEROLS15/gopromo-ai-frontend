@@ -11,13 +11,7 @@ import { useTourPackages } from "@/hooks/useTourPackages";
 
 // Using TourPackageResponse directly from /types/tourPackage
 
-const typeColors: Record<string, "turquoise" | "orange" | "success"> = {
-  aventura: "orange",
-  educativo: "turquoise",
-  cultural: "success",
-  relajación: "turquoise",
-  relajacion: "turquoise",
-};
+// Removed color mapping as types are derived from backend and UI no longer uses mapper
 
 interface PackageCardProps {
   pkg: TourPackageResponse;
@@ -41,7 +35,7 @@ const PackageCard = ({ pkg, onSelect }: PackageCardProps) => {
   const duration = `${pkg.days ?? 0} días`;
   const minLabel = `Mínimo ${pkg.minStudents ?? 0} estudiantes`;
   const level = pkg.educationLevel?.name ?? "";
-  const typeKey = (pkg.categoryPackage?.name ?? "").toLowerCase();
+  // typeKey removed to avoid lint errors; we rely on backend type display only
 
   return (
     <Card
