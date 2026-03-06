@@ -31,8 +31,26 @@ export interface TourPackageResponse {
     id: number;
     companyName?: string;
   };
-  promotions?: any[];
-  offers?: any[];
+  promotions?: {
+    id?: number;
+    name?: string;
+    description?: string;
+    discountPercent?: number;
+    startDate?: string;
+    endDate?: string;
+    isGlobal?: boolean;
+    supplier?: { id?: number; companyName?: string };
+  }[];
+  offers?: {
+    id?: number;
+    name?: string;
+    description?: string;
+    discountPercent?: number;
+    startDate?: string;
+    endDate?: string;
+    isGlobal?: boolean;
+    supplier?: { id?: number; companyName?: string };
+  }[];
   createdAt?: string;
   updatedAt?: string;
 }

@@ -42,7 +42,6 @@ const PackageCard = ({ pkg, onSelect }: PackageCardProps) => {
   const minLabel = `Mínimo ${pkg.minStudents ?? 0} estudiantes`;
   const level = pkg.educationLevel?.name ?? "";
   const typeKey = (pkg.categoryPackage?.name ?? "").toLowerCase();
-  const typeVariant = typeColors[typeKey] ?? typeColors["educativo"];
 
   return (
     <Card
