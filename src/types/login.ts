@@ -34,3 +34,30 @@ export type Supplier = {
 export type LoginResponse = {
   user: User | Supplier;
 };
+
+export type UpdateMePayload = {
+  fullName?: string;
+  phone?: string;
+  avatar?: string;
+  educationalInstitution?: string;
+  representativeName?: string;
+  companyName?: string;
+  ruc?: string;
+};
+
+export type ProfileInitialUser = User | Supplier;
+
+export type UserInitial = {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  educationalInstitution?: string;
+};
+
+export type SupplierInitial = {
+  representativeName?: string;
+  companyName?: string;
+  email?: string;
+  phone?: string;
+  ruc?: string;
+};
