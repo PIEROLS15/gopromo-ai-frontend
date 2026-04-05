@@ -1,20 +1,7 @@
 import { apiFetch } from "@/services/api";
 import type { ApiSuccessResponse } from "@/types/api";
-
-export interface ChangePasswordPayload {
-  password: string;
-  currentPassword?: string;
-}
-
-export interface UpdateMePayload {
-  fullName?: string;
-  phone?: string;
-  avatar?: string;
-  educationalInstitution?: string;
-  representativeName?: string;
-  companyName?: string;
-  ruc?: string;
-}
+import type { UpdateMePayload } from "@/types/login";
+import type { ChangePasswordPayload } from "@/types/user";
 
 export const UserService = {
   updateMe: (

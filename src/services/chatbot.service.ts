@@ -1,4 +1,4 @@
-import { mockPackages } from "@/lib/mock-data";
+import { mockPackages } from "@/services/mockData.service";
 import type {
   ChatbotMessage,
   ChatbotOption,

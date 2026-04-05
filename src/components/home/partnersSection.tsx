@@ -1,4 +1,4 @@
-import { mockPartners } from '@/lib/mock-data'
+import { mockPartners } from '@/services/mockData.service'
 import Image from 'next/image'
 
 const PartnersSection = () => {

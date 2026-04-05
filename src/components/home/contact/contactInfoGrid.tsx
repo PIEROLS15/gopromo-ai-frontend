@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { contactInfo } from "@/lib/contact/data";
+import { contactInfo } from "@/services/contactContent.service";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 
 const contactIcons = {

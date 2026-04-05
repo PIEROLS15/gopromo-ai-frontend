@@ -1,4 +1,4 @@
-import { team } from "@/lib/about/data";
+import { team } from "@/services/aboutContent.service";
 import { Badge } from "@/components/ui/badge";
 
 const TeamGrid = () => {

@@ -1,16 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-import { canAccessAdminPath } from "./lib/admin/access";
-
-type MeResponse = {
-  data?: {
-    user?: {
-      role?: {
-        name?: string;
-      };
-    };
-  };
-};
+import { canAccessAdminPath } from "@/services/adminAccess.service";
+import type { MeResponse } from "@/types/admin";
 
 async function getRoleFromSession(accessToken: string) {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;

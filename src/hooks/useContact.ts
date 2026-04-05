@@ -2,8 +2,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ContactService } from "@/services/contact.service";
-import { getErrorMessage } from "@/lib/validations/formUtils";
-import { contactSchema, type ContactFormData, } from "@/lib/validations/contact.schema";
+import { getErrorMessage } from "@/services/validation/formUtils";
+import {
+  contactSchema,
+  type ContactFormData,
+} from "@/services/validation/contact.schema";
 
 export const useContact = () => {
   const [loading, setLoading] = useState(false);

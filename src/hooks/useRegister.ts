@@ -10,9 +10,9 @@ import {
   publicRegisterSchema,
   type ProviderRegisterSchema,
   type PublicRegisterSchema,
-} from "@/lib/validations/register.schema";
+} from "@/services/validation/register.schema";
 import { PublicRegisterPayload, ProviderRegisterPayload } from "@/types/register";
-import { getErrorMessage } from "@/lib/validations/formUtils";
+import { getErrorMessage } from "@/services/validation/formUtils";
 import { useSession } from "@/context/sessionContext";
 
 const getFirstErrorMessage = (errors: FieldErrors) => {

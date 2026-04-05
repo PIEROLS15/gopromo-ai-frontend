@@ -1,9 +1,4 @@
-export type AdminRole = "Admin" | "Supplier";
-
-type AdminRouteRule = {
-  prefix: string;
-  roles: AdminRole[];
-};
+import type { AdminRole, AdminRouteRule } from "@/types/admin";
 
 export const adminRouteRules: AdminRouteRule[] = [
   { prefix: "/admin", roles: ["Admin", "Supplier"] },
@@ -16,7 +11,7 @@ export const adminRouteRules: AdminRouteRule[] = [
 ];
 
 const sortedAdminRouteRules = [...adminRouteRules].sort(
-  (a, b) => b.prefix.length - a.prefix.length,
+  (a, b) => b.prefix.length - a.prefix.length
 );
 
 function isAdminRole(roleName: string): roleName is AdminRole {
@@ -46,7 +41,7 @@ export function canAccessAdminPath(pathname: string, roleName?: string | null) {
   const currentRule = sortedAdminRouteRules.find((rule) =>
     rule.prefix === "/admin"
       ? pathname === "/admin"
-      : pathname.startsWith(rule.prefix),
+      : pathname.startsWith(rule.prefix)
   );
 
   if (!currentRule) {

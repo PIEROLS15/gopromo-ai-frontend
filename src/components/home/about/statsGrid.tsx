@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { stats } from "@/lib/about/data";
+import { stats } from "@/services/aboutContent.service";
 import { BadgeCheck, GraduationCap, Plane, ThumbsUp } from "lucide-react";
 
 const statIcons = {
