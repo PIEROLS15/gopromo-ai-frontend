@@ -1,7 +1,19 @@
 "use client";
 
 import { ThemeProvider } from "@/context/themeContext";
+import { SessionProvider } from "@/context/sessionContext";
+import { ChatProvider } from "@/context/chatContext";
 
-export function AppProviders({ children }: { children: React.ReactNode }) {
-    return <ThemeProvider>{children}</ThemeProvider>;
+export function AppProviders({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <ThemeProvider>
+      <SessionProvider>
+        <ChatProvider>{children}</ChatProvider>
+      </SessionProvider>
+    </ThemeProvider>
+  );
 }

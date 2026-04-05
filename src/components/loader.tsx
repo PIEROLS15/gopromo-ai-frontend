@@ -1,17 +1,11 @@
 'use client'
 
 import { Loader2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useTheme } from '@/context/themeContext'
 
 export function Loader() {
-    const [isDark, setIsDark] = useState(false)
-
-    useEffect(() => {
-        const savedTheme = localStorage.getItem("theme")
-        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-        const theme = (savedTheme as string) || (prefersDark ? "dark" : "light")
-        setIsDark(theme === "dark")
-    }, [])
+    const { theme } = useTheme()
+    const isDark = theme === 'dark'
 
     return (
         <div className={`fixed inset-0 z-9999 flex flex-col items-center justify-center ${isDark ? 'bg-slate-950' : 'bg-slate-50'

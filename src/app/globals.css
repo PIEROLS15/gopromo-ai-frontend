@@ -22,14 +22,14 @@
   --primary-dark: oklch(0.55 0.14 180);
 
   /* Warm Orange - Accent/CTA Color #FFA726 */
-  --secondary: oklch(0.78 0.15 60);
+  --secondary: oklch(0.78 0.16 72.41);
   --secondary-foreground: oklch(1 0 0);
   --secondary-light: oklch(0.94 0.08 60);
 
   --muted: oklch(0.96 0.008 180);
   --muted-foreground: oklch(0.55 0.005 200);
 
-  --accent: oklch(0.78 0.15 60);
+  --accent: oklch(0.78 0.16 72.41);
   --accent-foreground: oklch(1 0 0);
 
   --destructive: oklch(0.65 0.25 27);
@@ -327,4 +327,24 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: color-mix(in oklch, var(--color-primary), transparent 50%);
+}
+
+@theme inline {
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -11,6 +11,8 @@ import {
     CreditCard,
     Settings,
 } from "lucide-react";
+import { useSession } from "@/context/sessionContext";
+import { canAccessAdminPath } from "@/services/adminAccess.service";
 
 const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -28,10 +30,15 @@ export default function SidebarContent({
     onNavigate?: () => void;
 }) {
     const pathname = usePathname();
+    const { roleName } = useSession();
+
+    const visibleItems = navItems.filter((item) =>
+        canAccessAdminPath(item.href, roleName),
+    );
 
     return (
         <nav className="p-4 space-y-1">
-            {navItems.map((item) => {
+            {visibleItems.map((item) => {
                 const isActive =
                     item.href === "/admin"
                         ? pathname === "/admin"
