@@ -1,30 +1,4 @@
-export interface TravelPackage {
-    id: string
-    name: string
-    destination: string
-    duration: string
-    price: number
-    description: string
-    image: string
-    category: "aventura" | "educativo" | "cultural" | "relajacion"
-    level: "primaria" | "secundaria" | "superior"
-    provider: {
-        id: string
-        name: string
-        verified: boolean
-        ruc: string
-    }
-    included: string[]
-    highlights: string[]
-}
-
-export interface Promotion {
-    id: string
-    packageId: string
-    name: string
-    description: string
-    price: number
-}
+import type { Partner, Promotion, TravelPackage } from "@/types/mockData"
 
 export const mockPackages: TravelPackage[] = [
     {
@@ -192,7 +166,7 @@ export const mockPromotions: Promotion[] = [
     },
 ]
 
-export const mockPartners = [
+export const mockPartners: Partner[] = [
     { name: "RENIEC", logo: "/reniec-logo-peru.jpg" },
     { name: "MINCETUR", logo: "/mincetur-logo-peru.jpg" },
     { name: "Culqi", logo: "/culqi-logo-payment.jpg" },

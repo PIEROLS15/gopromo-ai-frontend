@@ -2,6 +2,7 @@
 
 import { ThemeProvider } from "@/context/themeContext";
 import { SessionProvider } from "@/context/sessionContext";
+import { ChatProvider } from "@/context/chatContext";
 
 export function AppProviders({
   children,
@@ -10,7 +11,9 @@ export function AppProviders({
 }) {
   return (
     <ThemeProvider>
-      <SessionProvider>{children}</SessionProvider>
+      <SessionProvider>
+        <ChatProvider>{children}</ChatProvider>
+      </SessionProvider>
     </ThemeProvider>
   );
 }

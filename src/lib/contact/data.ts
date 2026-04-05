@@ -1,34 +1,29 @@
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-} from "lucide-react";
+import type { ContactInfoItem, FaqItem } from "@/types/contactContent";
 
-export const contactInfo = [
+export const contactInfo: ContactInfoItem[] = [
   {
-    icon: Phone,
+    icon: "phone",
     title: "Teléfono",
     value: "+51 999 888 777",
     description: "Lunes a Viernes, 8am - 6pm",
     action: "tel:+51999888777",
   },
   {
-    icon: Mail,
+    icon: "mail",
     title: "Email",
     value: "info@promotrip.pe",
     description: "Respuesta en 24 horas",
     action: "mailto:info@promotrip.pe",
   },
   {
-    icon: MapPin,
+    icon: "mapPin",
     title: "Oficina",
     value: "Av. Principal 123",
     description: "San Vicente de Cañete, Lima",
     action: "#",
   },
   {
-    icon: Clock,
+    icon: "clock",
     title: "Horario",
     value: "Lun - Vie: 8am - 6pm",
     description: "Sáb: 9am - 1pm",
@@ -36,7 +31,7 @@ export const contactInfo = [
   },
 ];
 
-export const faqs = [
+export const faqs: FaqItem[] = [
   {
     question: "¿Cómo reservo un paquete para mi colegio?",
     answer:

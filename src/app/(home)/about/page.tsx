@@ -1,4 +1,3 @@
-import Header from "@/components/home/layout/header";
 import HeroSection from "@/components/home/about/heroSection";
 import StatsGrid from "@/components/home/about/statsGrid";
 import MissionVision from "@/components/home/about/missionVision";
@@ -14,8 +13,6 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
-
       <main>
         <HeroSection />
         <StatsGrid />

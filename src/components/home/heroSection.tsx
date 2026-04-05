@@ -1,119 +1,29 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Search, Sparkles, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { TourPackageService } from "@/services/tourPackage.service";
-import { TourPackageResponse } from "@/types/tourPackage";
+import { useChat } from "@/context/chatContext";
+import { usePackageSearch } from "@/hooks/usePackageSearch";
 
 interface HeroSectionProps {
-  onOpenChat: () => void;
   onSearchActiveChange?: (isActive: boolean) => void;
 }
 
-interface PackageSuggestion {
-  id: number;
-  title: string;
-  destination: string;
-  price: number;
-  duration: string;
-  image: string;
-}
-
-const HeroSection = ({ onOpenChat, onSearchActiveChange }: HeroSectionProps) => {
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [showSuggestions, setShowSuggestions] = useState(false);
-  const [suggestions, setSuggestions] = useState<PackageSuggestion[]>([]);
-  const searchRef = useRef<HTMLDivElement>(null);
-
-  const isSearchActive = searchQuery.trim().length > 0 || showSuggestions;
-
-  useEffect(() => {
-    onSearchActiveChange?.(isSearchActive);
-  }, [isSearchActive, onSearchActiveChange]);
-
-  // ✅ NUEVO: Conectado al endpoint real
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (!searchQuery.trim()) {
-        setSuggestions([]);
-        setShowSuggestions(false);
-        return;
-      }
-
-      try {
-        const response = await TourPackageService.search(searchQuery);
-
-        const cap = (s?: string) => {
-          if (!s) return "";
-          const t = String(s);
-          return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
-        };
-        const mapped = response.map((pkg: TourPackageResponse) => {
-          const deptName = cap(pkg.district?.province?.department?.name);
-          const provName = cap(pkg.district?.province?.name);
-          const distName = cap(pkg.district?.name);
-          const dest = [deptName, provName, distName].filter((n) => n).join(", ");
-          return {
-            id: pkg.id,
-            title: pkg.name,
-            destination: dest,
-            price: pkg.pricePersona,
-            duration: `${pkg.days ?? 0} días`,
-            image: pkg.images?.[0]?.url || "/placeholder.svg",
-          };
-        });
-
-        setSuggestions(mapped);
-        setShowSuggestions(true);
-      } catch (error) {
-        console.error("Search error:", error);
-        setSuggestions([]);
-        setShowSuggestions(false);
-      }
-    };
-
-    const debounce = setTimeout(() => {
-      fetchSuggestions();
-    }, 400);
-
-    return () => clearTimeout(debounce);
-  }, [searchQuery]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setShowSuggestions(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleSelectSuggestion = (pkg: PackageSuggestion) => {
-    router.push(`/paquete/${pkg.id}`);
-    setShowSuggestions(false);
-    setSearchQuery("");
-  };
-
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      router.push(`/paquetes?q=${encodeURIComponent(searchQuery)}`);
-    } else {
-      router.push("/paquetes");
-    }
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
+const HeroSection = ({ onSearchActiveChange }: HeroSectionProps) => {
+  const { openChat } = useChat();
+  const {
+    searchRef,
+    searchQuery,
+    setSearchQuery,
+    showSuggestions,
+    setShowSuggestions,
+    suggestions,
+    handleSearch,
+    handleSelectSuggestion,
+    handleInputKeyDown,
+  } = usePackageSearch(onSearchActiveChange);
 
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-visible pt-20 z-40">
@@ -160,14 +70,14 @@ const HeroSection = ({ onOpenChat, onSearchActiveChange }: HeroSectionProps) => 
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-1">
                   <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                  <Input
-                    placeholder="¿A dónde te gustaría viajar?"
-                    className="pl-12 h-14 text-base border-2"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    onFocus={() => searchQuery && setShowSuggestions(true)}
-                  />
+                    <Input
+                      placeholder="¿A dónde te gustaría viajar?"
+                      className="pl-12 h-14 text-base border-2"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={handleInputKeyDown}
+                      onFocus={() => searchQuery && setShowSuggestions(true)}
+                    />
                 </div>
 
                 <Button
@@ -243,7 +153,7 @@ const HeroSection = ({ onOpenChat, onSearchActiveChange }: HeroSectionProps) => 
             <Button
               variant="hero"
               size="xl"
-              onClick={onOpenChat}
+              onClick={openChat}
               className="animate-bounce-gentle"
             >
               <Sparkles className="w-5 h-5" />
