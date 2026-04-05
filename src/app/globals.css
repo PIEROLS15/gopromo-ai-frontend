@@ -22,14 +22,14 @@
   --primary-dark: oklch(0.55 0.14 180);
 
   /* Warm Orange - Accent/CTA Color #FFA726 */
-  --secondary: oklch(0.78 0.15 60);
+  --secondary: oklch(0.78 0.16 72.41);
   --secondary-foreground: oklch(1 0 0);
   --secondary-light: oklch(0.94 0.08 60);
 
   --muted: oklch(0.96 0.008 180);
   --muted-foreground: oklch(0.55 0.005 200);
 
-  --accent: oklch(0.78 0.15 60);
+  --accent: oklch(0.78 0.16 72.41);
   --accent-foreground: oklch(1 0 0);
 
   --destructive: oklch(0.65 0.25 27);

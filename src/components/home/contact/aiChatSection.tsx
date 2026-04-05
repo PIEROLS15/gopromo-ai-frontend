@@ -2,12 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useChat } from "@/context/chatContext";
 import { MessageCircle } from "lucide-react";
 
 const AIChatSection = () => {
-    const openChat = () => {
-        window.dispatchEvent(new Event("open-chatbot"));
-    };
+    const { openChat } = useChat();
 
     return (
         <Card className="mt-6 p-6">

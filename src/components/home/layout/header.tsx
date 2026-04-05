@@ -120,7 +120,7 @@ const Header = () => {
                                                 {getInitials(displayName)}
                                             </AvatarFallback>
                                         </Avatar>
-                                        <span className="hidden xl:inline text-sm font-medium max-w-[100px] truncate">
+                                        <span className="hidden xl:inline text-sm font-medium max-w-25 truncate">
                                             {displayName}
                                         </span>
                                         <ChevronDown className="w-4 h-4 text-muted-foreground" />

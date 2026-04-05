@@ -9,19 +9,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-md",
-        outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-md",
+        default: "bg-primary text-white hover:bg-primary/90 shadow-md hover:shadow-lg",
+        destructive: "bg-destructive text-white hover:bg-destructive/90 shadow-md",
+        outline: "border-2 border-primary bg-transparent text-primary hover:bg-primary hover:text-white",
+        secondary: "bg-secondary text-white hover:bg-secondary/90 shadow-md",
         ghost: "hover:bg-primary/10 hover:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
         // GoPromo AI Custom Variants
         hero: "bg-gradient-to-r from-secondary to-orange-500 text-white shadow-orange hover:shadow-lg hover:scale-[1.02] text-base py-6 px-8 rounded-xl font-bold",
-        turquoise: "bg-gradient-to-r from-primary to-teal-400 text-primary-foreground shadow-glow hover:shadow-lg hover:scale-[1.02]",
+        turquoise: "bg-gradient-to-r from-primary to-teal-400 text-white shadow-glow hover:shadow-lg hover:scale-[1.02]",
         glass: "bg-white/90 backdrop-blur-sm border border-primary/20 text-primary hover:bg-primary/10",
-        chat: "bg-primary/10 text-primary hover:bg-primary hover:text-primary-foreground rounded-full",
+        chat: "bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-full",
         step: "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary border-2 border-transparent hover:border-primary",
-        stepActive: "bg-primary text-primary-foreground shadow-glow",
+        stepActive: "bg-primary text-white shadow-glow",
         success: "bg-emerald-500 text-white hover:bg-emerald-600 shadow-md",
       },
       size: {
