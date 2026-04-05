@@ -70,14 +70,14 @@ const HeroSection = ({ onSearchActiveChange }: HeroSectionProps) => {
               <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-1">
                   <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                    <Input
-                      placeholder="¿A dónde te gustaría viajar?"
-                      className="pl-12 h-14 text-base border-2"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      onKeyDown={handleInputKeyDown}
-                      onFocus={() => searchQuery && setShowSuggestions(true)}
-                    />
+                  <Input
+                    placeholder="¿A dónde te gustaría viajar?"
+                    className="pl-12 h-14 text-base border-2"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleInputKeyDown}
+                    onFocus={() => searchQuery && setShowSuggestions(true)}
+                  />
                 </div>
 
                 <Button
@@ -93,7 +93,7 @@ const HeroSection = ({ onSearchActiveChange }: HeroSectionProps) => {
 
               {/* Suggestions */}
               {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute left-4 right-4 md:left-6 md:right-6 top-full mt-2 bg-card rounded-xl shadow-2xl border border-border overflow-hidden z-[9999]">
+                <div className="absolute left-4 right-4 md:left-6 md:right-6 top-full mt-2 bg-card rounded-xl shadow-2xl border border-border overflow-hidden z-9999">
                   <div className="p-2">
                     <p className="text-xs text-muted-foreground px-3 py-2">
                       Sugerencias
@@ -167,4 +167,3 @@ const HeroSection = ({ onSearchActiveChange }: HeroSectionProps) => {
 };
 
 export default HeroSection;
-

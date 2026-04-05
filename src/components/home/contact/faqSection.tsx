@@ -1,5 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { faqs } from "@/lib/contact/data";
+import { faqs } from "@/services/contactContent.service";
 
 const FAQSection = () => {
     return (

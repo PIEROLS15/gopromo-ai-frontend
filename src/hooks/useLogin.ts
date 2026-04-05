@@ -6,8 +6,8 @@ import { useToast } from "@/hooks/use-toast";
 import {
   loginSchema,
   type LoginSchema,
-} from "@/lib/validations/login.schema";
-import { getErrorMessage } from "@/lib/validations/formUtils";
+} from "@/services/validation/login.schema";
+import { getErrorMessage } from "@/services/validation/formUtils";
 import { LoginService } from "@/services/login.service";
 import { useSession } from "@/context/sessionContext";
 

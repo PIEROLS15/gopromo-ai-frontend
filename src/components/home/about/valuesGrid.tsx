@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { values } from "@/lib/about/data";
+import { values } from "@/services/aboutContent.service";
 import { Award, Heart, Lightbulb, Users } from "lucide-react";
 
 const valueIcons = {

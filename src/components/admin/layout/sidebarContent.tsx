@@ -12,7 +12,7 @@ import {
     Settings,
 } from "lucide-react";
 import { useSession } from "@/context/sessionContext";
-import { canAccessAdminPath } from "@/lib/admin/access";
+import { canAccessAdminPath } from "@/services/adminAccess.service";
 
 const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
