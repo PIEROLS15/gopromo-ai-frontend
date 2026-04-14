@@ -9,8 +9,9 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input";
 import { useChat } from "@/context/chatContext";
 import { useChatbotFlow } from "@/hooks/useChatbotFlow";
+import { getTourPackageHref } from "@/lib/tourPackageSlug";
 
-export function Chatbot() {
+const Chatbot = () => {
   const { isOpen, openChat, closeChat } = useChat();
   const {
     messages,
@@ -115,7 +116,7 @@ export function Chatbot() {
                           {pkg.description}
                         </p>
                         <Button asChild size="sm" className="w-full">
-                          <Link href={`/packages/${pkg.id}`}>Ver detalles</Link>
+                          <Link href={getTourPackageHref(pkg)}>Ver detalles</Link>
                         </Button>
                       </div>
                     </Card>
@@ -166,3 +167,5 @@ export function Chatbot() {
     </Card>
   );
 }
+
+export default Chatbot

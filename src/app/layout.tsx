@@ -4,8 +4,8 @@ import { Nunito } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
 // import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { AppProviders } from "@/components/app-providers"
-import { Toaster } from "@/components/ui/toaster"
+import AppProviders from "@/components/app-providers"
+import Toaster from "@/components/ui/toaster"
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -19,11 +19,11 @@ export const metadata: Metadata = {
   generator: "v0.app",
 }
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: {
   children: React.ReactNode
-}) {
+}) => {
   return (
     <html lang="es">
       <body className={`font-sans ${nunito.variable} ${GeistMono.variable}`}>
@@ -36,3 +36,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export default RootLayout

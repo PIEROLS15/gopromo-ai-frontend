@@ -5,14 +5,14 @@ import { usePathname } from "next/navigation";
 
 import Header from "@/components/home/layout/header";
 import Footer from "@/components/home/layout/footer";
-import { Chatbot } from "@/components/home/layout/chatbot";
-import { Loader } from "@/components/loader";
+import Chatbot from "@/components/home/layout/chatbot";
+import Loader from "@/components/loader";
 
-export default function ShopLayout({
+const ShopLayout = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   const pathname = usePathname();
   const hideFooterAndChatbot = pathname === "/register" || pathname === "/login";
 
@@ -28,7 +28,9 @@ export default function ShopLayout({
       </Suspense>
     </>
   );
-}
+};
+
+export default ShopLayout;
 
 
 

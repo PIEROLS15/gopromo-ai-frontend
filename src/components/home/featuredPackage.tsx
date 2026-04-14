@@ -3,10 +3,11 @@
 import { useRouter } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { getTourPackageHref } from "@/lib/tourPackageSlug";
 import { ChevronRight } from "lucide-react";
 import { TourPackageResponse } from "@/types/tourPackage";
 import { useTourPackages } from "@/hooks/useTourPackages";
-import { PackageCard } from "@/components/package-card";
+import PackageCard from "@/components/package-card";
 
 interface FeaturedPackagesProps {
   onSelectPackage: (pkg: TourPackageResponse) => void;
@@ -18,7 +19,7 @@ const FeaturedPackages = ({ onSelectPackage }: FeaturedPackagesProps) => {
 
   const handleSelect = (pkg: TourPackageResponse) => {
     onSelectPackage?.(pkg);
-    router.push(`/paquete/${pkg.id}`);
+    router.push(getTourPackageHref(pkg));
   };
 
   return (

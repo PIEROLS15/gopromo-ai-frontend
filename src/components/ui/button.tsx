@@ -16,8 +16,8 @@ const buttonVariants = cva(
         ghost: "hover:bg-primary/10 hover:text-primary",
         link: "text-primary underline-offset-4 hover:underline",
         // GoPromo AI Custom Variants
-        hero: "bg-gradient-to-r from-secondary to-orange-500 text-white shadow-orange hover:shadow-lg hover:scale-[1.02] text-base py-6 px-8 rounded-xl font-bold",
-        turquoise: "bg-gradient-to-r from-primary to-teal-400 text-white shadow-glow hover:shadow-lg hover:scale-[1.02]",
+        hero: "bg-linear-to-r from-secondary to-orange-500 text-white shadow-orange hover:shadow-lg hover:scale-[1.02] text-base py-6 px-8 rounded-xl font-bold",
+        turquoise: "bg-linear-to-r from-primary to-teal-400 text-white shadow-glow hover:shadow-lg hover:scale-[1.02]",
         glass: "bg-white/90 backdrop-blur-sm border border-primary/20 text-primary hover:bg-primary/10",
         chat: "bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-full",
         step: "bg-muted text-muted-foreground hover:bg-primary/10 hover:text-primary border-2 border-transparent hover:border-primary",

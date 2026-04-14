@@ -15,6 +15,25 @@ export const TourPackageService = {
       `/api/v1/tour-packages?page=${page}&limit=${limit}`
     ),
 
+  getAllPages: async (limit: number = 50) => {
+    const firstPage = await apiFetch<TourPackageListResponse>(
+      `/api/v1/tour-packages?page=1&limit=${limit}`
+    );
+
+    let merged = [...firstPage.data];
+
+    if (firstPage.meta.totalPages > 1) {
+      for (let page = 2; page <= firstPage.meta.totalPages; page += 1) {
+        const response = await apiFetch<TourPackageListResponse>(
+          `/api/v1/tour-packages?page=${page}&limit=${limit}`
+        );
+        merged = [...merged, ...response.data];
+      }
+    }
+
+    return merged;
+  },
+
   getById: (id: number) => apiFetch<TourPackageResponse>(`/api/v1/tour-packages/${id}`),
 
   search: (keyword: string) =>

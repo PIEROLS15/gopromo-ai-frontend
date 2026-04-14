@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Lock, Eye, EyeOff } from "lucide-react";
 import { useProfileSecurity } from "@/hooks/useProfileSecurity";
 
-export default function ProfileSecurityCard(): React.ReactElement {
+const ProfileSecurityCard = (): React.ReactElement => {
   const {
     showPassword,
     setShowPassword,
@@ -59,4 +59,6 @@ export default function ProfileSecurityCard(): React.ReactElement {
       </CardContent>
     </Card>
   );
-}
+};
+
+export default ProfileSecurityCard;

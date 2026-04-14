@@ -4,11 +4,11 @@ import { ThemeProvider } from "@/context/themeContext";
 import { SessionProvider } from "@/context/sessionContext";
 import { ChatProvider } from "@/context/chatContext";
 
-export function AppProviders({
+const AppProviders = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   return (
     <ThemeProvider>
       <SessionProvider>
@@ -16,4 +16,6 @@ export function AppProviders({
       </SessionProvider>
     </ThemeProvider>
   );
-}
+};
+
+export default AppProviders;

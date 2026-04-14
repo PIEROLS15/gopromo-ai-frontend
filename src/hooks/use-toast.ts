@@ -84,15 +84,6 @@ export const reducer = (state: State, action: Action): State => {
         case "DISMISS_TOAST": {
             const { toastId } = action
 
-            // ! Side effect ! - This should be executed in a useEffect
-            if (toastId) {
-                addToRemoveQueue(toastId)
-            } else {
-                state.toasts.forEach((toast) => {
-                    addToRemoveQueue(toast.id)
-                })
-            }
-
             return {
                 ...state,
                 toasts: state.toasts.map((t) =>
@@ -124,6 +115,16 @@ const listeners: Array<(state: State) => void> = []
 let memoryState: State = { toasts: [] }
 
 function dispatch(action: Action) {
+    if (action.type === "DISMISS_TOAST") {
+        if (action.toastId) {
+            addToRemoveQueue(action.toastId)
+        } else {
+            memoryState.toasts.forEach((toast) => {
+                addToRemoveQueue(toast.id)
+            })
+        }
+    }
+
     memoryState = reducer(memoryState, action)
     listeners.forEach((listener) => {
         listener(memoryState)
@@ -172,7 +173,7 @@ function useToast() {
                 listeners.splice(index, 1)
             }
         }
-    }, [state])
+    }, [])
 
     return {
         ...state,

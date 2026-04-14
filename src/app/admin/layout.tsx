@@ -6,7 +6,7 @@ import TopBar from "@/components/admin/layout/topBar";
 import MobileHeader from "@/components/admin/layout/mobileHeader";
 import MobileSidebar from "@/components/admin/layout/mobileSidebar";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -32,4 +32,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
         </div>
     );
-}
+};
+
+export default AdminLayout;

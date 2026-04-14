@@ -33,7 +33,6 @@ export function useUserProfileForm(initialData?: UserInitial) {
     try {
       setApiError(null);
       const payload: UpdateMePayload = { fullName, phone, educationalInstitution: education };
-      console.debug("Profile update payload (user):", payload);
       const res = await UserService.updateMe(payload);
       const resMsg = (res as { message?: string }).message ?? "Datos actualizados";
       toast({ title: "Éxito", description: resMsg, variant: "success" });

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export default function Sidebar() {
+const Sidebar = () => {
     return (
         <aside className="w-64 bg-card border-r border-border min-h-screen hidden lg:flex flex-col">
             <div className="h-16 px-4 border-b border-border flex items-center">
@@ -30,4 +30,6 @@ export default function Sidebar() {
             </div>
         </aside>
     );
-}
+};
+
+export default Sidebar;

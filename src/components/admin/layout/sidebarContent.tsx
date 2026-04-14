@@ -24,11 +24,11 @@ const navItems = [
     { href: "/admin/settings", label: "Configuración", icon: Settings },
 ];
 
-export default function SidebarContent({
+const SidebarContent = ({
     onNavigate,
 }: {
     onNavigate?: () => void;
-}) {
+}) => {
     const pathname = usePathname();
     const { roleName } = useSession();
 
@@ -61,4 +61,6 @@ export default function SidebarContent({
             })}
         </nav>
     );
-}
+};
+
+export default SidebarContent;

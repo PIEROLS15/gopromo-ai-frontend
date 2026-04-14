@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { Card, CardContent, CardHeader, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useSession } from "@/context/sessionContext";
-import { useProfileAvatar } from "@/hooks/useProfileAvatar";
+import { getProfileAvatarData } from "@/lib/profile/avatar";
 import type { User, Supplier } from "@/types/login";
 
 interface Props {
@@ -16,7 +16,7 @@ const ProfileAvatarCard = ({ role }: Props) => {
   type CurrentUser = User | Supplier | null;
   const currentUser = user as unknown as CurrentUser;
 
-  const { displayName, initials, roleNameDisplay } = useProfileAvatar(
+  const { displayName, initials, roleNameDisplay } = getProfileAvatarData(
     currentUser,
     role
   );

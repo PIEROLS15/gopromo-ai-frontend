@@ -25,7 +25,7 @@ const titles: Record<string, string> = {
     "/admin/settings": "Configuración",
 };
 
-export default function TopBar() {
+const TopBar = () => {
     const pathname = usePathname();
     const router = useRouter();
     const { user, logout } = useSession();
@@ -99,4 +99,6 @@ export default function TopBar() {
             </div>
         </header>
     );
-}
+};
+
+export default TopBar;
