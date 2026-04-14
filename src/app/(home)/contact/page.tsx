@@ -8,7 +8,7 @@ export const metadata = {
   title: "Contacto | GoPromo AI",
 };
 
-export default function ContactPage() {
+const ContactPage = () => {
   return (
     <main className="pt-20">
       <ContactHero />
@@ -28,4 +28,6 @@ export default function ContactPage() {
       </section>
     </main>
   );
-}
+};
+
+export default ContactPage;

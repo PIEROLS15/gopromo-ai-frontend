@@ -38,7 +38,11 @@ export function useProfileSecurity() {
         backendMsg = (err as { message?: string }).message ?? backendMsg;
       }
       if (status === 404) {
-        toast({ title: "Error", description: "Endpoint de cambio de contraseña no encontrado (404). Verifica la ruta en el backend.", variant: "destructive" });
+        toast({
+          title: "Error",
+          description: "No se pudo actualizar la contraseña en este momento. Intenta nuevamente más tarde.",
+          variant: "destructive"
+        });
       } else {
         toast({ title: "Error", description: backendMsg, variant: "destructive" });
       }

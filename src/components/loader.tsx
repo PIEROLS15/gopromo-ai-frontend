@@ -3,7 +3,7 @@
 import { Loader2 } from 'lucide-react'
 import { useTheme } from '@/context/themeContext'
 
-export function Loader() {
+const Loader = () => {
     const { theme } = useTheme()
     const isDark = theme === 'dark'
 
@@ -29,3 +29,5 @@ export function Loader() {
         </div>
     )
 }
+
+export default Loader

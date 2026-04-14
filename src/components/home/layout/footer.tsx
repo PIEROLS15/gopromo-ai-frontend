@@ -1,6 +1,7 @@
 "use client";
 
-import { Backpack, Mail, Phone, MapPin, Facebook, Instagram, Youtube } from "lucide-react";
+import { Backpack, Mail, Phone, MapPin } from "lucide-react";
+import { SiFacebook, SiInstagram, SiYoutube } from "react-icons/si";
 import Link from "next/link";
 
 const Footer = () => {
@@ -25,14 +26,14 @@ const Footer = () => {
                             Conectamos colegios con proveedores verificados.
                         </p>
                         <div className="flex gap-3">
-                            {[Facebook, Instagram, Youtube].map((Icon, i) => (
+                            {[SiFacebook, SiInstagram, SiYoutube].map((Icon, i) => (
                                 <a
                                     key={i}
                                     href="#"
                                     className="w-10 h-10 rounded-full bg-background/10 hover:bg-primary flex items-center justify-center transition-colors"
                                     aria-label="Social media"
                                 >
-                                    <Icon className="w-5 h-5" />
+                                    <Icon className="w-4 h-4" />
                                 </a>
                             ))}
                         </div>
@@ -44,7 +45,7 @@ const Footer = () => {
                         <ul className="space-y-3 text-sm">
                             {[
                                 { label: "Inicio", href: "/" },
-                                { label: "Paquetes", href: "/paquetes" },
+                                { label: "Paquetes", href: "/packages" },
                                 { label: "Nosotros", href: "/nosotros" },
                                 { label: "Contacto", href: "/contacto" },
                                 { label: "Blog", href: "/blog" },

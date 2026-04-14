@@ -3,7 +3,7 @@
 import { Menu } from "lucide-react";
 import ThemeToggle from "@/components/shared/themeToggle";
 
-export default function MobileHeader({ onMenu }: { onMenu: () => void }) {
+const MobileHeader = ({ onMenu }: { onMenu: () => void }) => {
     return (
         <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b border-border h-16 flex items-center justify-between px-4">
             <button onClick={onMenu} className="p-2 hover:bg-muted rounded-lg">
@@ -15,4 +15,6 @@ export default function MobileHeader({ onMenu }: { onMenu: () => void }) {
             <ThemeToggle />
         </header>
     );
-}
+};
+
+export default MobileHeader;

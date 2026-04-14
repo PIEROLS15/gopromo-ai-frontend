@@ -5,13 +5,13 @@ import { X, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SidebarContent from "./sidebarContent";
 
-export default function MobileSidebar({
+const MobileSidebar = ({
     open,
     onClose,
 }: {
     open: boolean;
     onClose: () => void;
-}) {
+}) => {
     return (
         <>
             <aside
@@ -53,4 +53,6 @@ export default function MobileSidebar({
             )}
         </>
     );
-}
+};
+
+export default MobileSidebar;

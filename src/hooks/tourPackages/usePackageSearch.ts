@@ -3,15 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
-import { TourPackageService } from "@/services/tourPackage.service";
-import type { TourPackageResponse } from "@/types/tourPackage";
-import type { PackageSuggestion } from "@/types/search";
 
-const normalizeText = (value?: string): string => {
-  if (!value) return "";
-  const text = String(value);
-  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-};
+import { normalizeText } from "@/lib/text";
+import { getTourPackageHref } from "@/lib/tourPackageSlug";
+import { TourPackageService } from "@/services/tourPackage.service";
+import type { PackageSuggestion } from "@/types/search";
+import type { TourPackageResponse } from "@/types/tourPackage";
 
 const mapToSuggestion = (pkg: TourPackageResponse): PackageSuggestion => {
   const department = normalizeText(pkg.district?.province?.department?.name);
@@ -28,9 +25,7 @@ const mapToSuggestion = (pkg: TourPackageResponse): PackageSuggestion => {
   };
 };
 
-export const usePackageSearch = (
-  onSearchActiveChange?: (isActive: boolean) => void
-) => {
+export const usePackageSearch = (onSearchActiveChange?: (isActive: boolean) => void) => {
   const router = useRouter();
   const searchRef = useRef<HTMLDivElement>(null);
 
@@ -79,18 +74,18 @@ export const usePackageSearch = (
   }, []);
 
   const handleSelectSuggestion = (pkg: PackageSuggestion) => {
-    router.push(`/paquete/${pkg.id}`);
+    router.push(getTourPackageHref({ id: pkg.id, name: pkg.title }));
     setShowSuggestions(false);
     setSearchQuery("");
   };
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      router.push(`/paquetes?q=${encodeURIComponent(searchQuery)}`);
+      router.push(`/packages?q=${encodeURIComponent(searchQuery)}`);
       return;
     }
 
-    router.push("/paquetes");
+    router.push("/packages");
   };
 
   const handleInputKeyDown = (event: KeyboardEvent) => {

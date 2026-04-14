@@ -19,11 +19,11 @@ const cap = (s?: string) => {
   return t.charAt(0).toUpperCase() + t.slice(1).toLowerCase();
 };
 
-export function PackageCard({
+const PackageCard = ({
   pkg,
   onSelect,
   ctaLabel = "Ver detalles",
-}: PackageCardProps) {
+}: PackageCardProps) => {
   const deptName = cap(pkg.district?.province?.department?.name);
   const provName = cap(pkg.district?.province?.name);
   const distName = cap(pkg.district?.name);
@@ -119,4 +119,6 @@ export function PackageCard({
       </CardContent>
     </Card>
   );
-}
+};
+
+export default PackageCard;

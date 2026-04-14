@@ -5,7 +5,7 @@ import { Search, Sparkles, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useChat } from "@/context/chatContext";
-import { usePackageSearch } from "@/hooks/usePackageSearch";
+import { usePackageSearch } from "@/hooks/useTourPackages";
 
 interface HeroSectionProps {
   onSearchActiveChange?: (isActive: boolean) => void;

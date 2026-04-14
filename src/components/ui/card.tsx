@@ -14,7 +14,7 @@ const cardVariants = cva(
         package: "shadow-md hover:shadow-lg hover:-translate-y-2 overflow-hidden border-0",
         chat: "shadow-lg border-0 bg-card",
         step: "border-2 border-primary/20 hover:border-primary shadow-sm",
-        feature: "border-0 bg-gradient-to-br from-primary/5 to-background shadow-md hover:shadow-lg",
+        feature: "border-0 bg-linear-to-br from-primary/5 to-background shadow-md hover:shadow-lg",
       },
     },
     defaultVariants: {
