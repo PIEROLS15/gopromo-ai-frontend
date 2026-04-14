@@ -7,7 +7,7 @@ const FeaturesSection = () => {
                 <div className="w-full px-4 md:px-6 lg:px-8">
                     <div className="mx-auto max-w-7xl">
                         <div className="mb-12 text-center">
-                            <h2 className="mb-3 text-3xl font-bold md:text-4xl">¿Por qué PromoTrip AI?</h2>
+                            <h2 className="mb-3 text-3xl font-bold md:text-4xl">¿Por qué GoPromo AI?</h2>
                             <p className="text-lg text-muted-foreground">
                                 La plataforma más confiable para viajes estudiantiles en Cañete
                             </p>

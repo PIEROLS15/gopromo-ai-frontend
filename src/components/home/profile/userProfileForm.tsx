@@ -34,14 +34,14 @@ const UserProfileForm = ({ initialData }: Props) => {
                             <User className="w-4 h-4" />
                             Nombre Completo
                         </label>
-                        <Input value={fullName} onChange={(e)=>setFullName((e.target as HTMLInputElement).value)} className="bg-background/80 border-white/10"/>
+                        <Input value={fullName} onChange={(e)=>setFullName((e.target as HTMLInputElement).value)} className="bg-muted/40 border-border"/>
                     </div>
                     <div className="space-y-1">
                         <label className="flex items-center gap-2 text-sm">
                             <Mail className="w-4 h-4" />
                             Correo Electrónico
                         </label>
-                                <Input value={email} readOnly className="bg-background/80 border-white/10 opacity-70 cursor-not-allowed select-none"/>
+                                <Input value={email} readOnly className="bg-muted/55 border-border text-muted-foreground opacity-100 cursor-not-allowed select-none"/>
                         <p className="text-xs text-muted-foreground">
                             El correo no se puede modificar
                         </p>
@@ -53,14 +53,14 @@ const UserProfileForm = ({ initialData }: Props) => {
                             <Phone className="w-4 h-4" />
                             Teléfono
                         </label>
-                        <Input value={phone} onChange={(e)=>setPhone((e.target as HTMLInputElement).value)} className="bg-background/80 border-white/10"/>
+                        <Input value={phone} onChange={(e)=>setPhone((e.target as HTMLInputElement).value)} className="bg-muted/40 border-border"/>
                     </div>
                     <div className="space-y-1">
                         <label className="flex items-center gap-2 text-sm">
                             <GraduationCap className="w-4 h-4" />
                             Institución Educativa
                         </label>
-                        <Input placeholder={education || "Nombre de tu institución"} value={education} onChange={(e)=>setEducation((e.target as HTMLInputElement).value)} className="bg-background/80 border-white/10"/>
+                        <Input placeholder={education || "Nombre de tu institución"} value={education} onChange={(e)=>setEducation((e.target as HTMLInputElement).value)} className="bg-muted/40 border-border"/>
                     </div>
                 </div>
                         <Separator />

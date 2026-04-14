@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* PromoTrip AI Design System - Adapted to OKLCH */
+  /* GoPromo AI Design System - Adapted to OKLCH */
   --background: oklch(0.99 0.01 180);
   --foreground: oklch(0.25 0.015 200);
 
@@ -15,11 +15,11 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.25 0.015 200);
 
-  /* Turquoise Green - Primary Brand Color #00BFA6 */
-  --primary: oklch(0.68 0.14 180);
+  /* Primary Brand Color - Blue (#0b65da) */
+  --primary: hsl(214 90% 45%);
   --primary-foreground: oklch(1 0 0);
-  --primary-light: oklch(0.92 0.08 180);
-  --primary-dark: oklch(0.55 0.14 180);
+  --primary-light: hsl(214 90% 94%);
+  --primary-dark: hsl(214 90% 36%);
 
   /* Warm Orange - Accent/CTA Color #FFA726 */
   --secondary: oklch(0.78 0.16 72.41);
@@ -37,21 +37,22 @@
 
   --border: oklch(0.9 0.01 180);
   --input: oklch(0.9 0.01 180);
-  --ring: oklch(0.68 0.14 180);
+  --ring: hsl(214 90% 45%);
 
   --radius: 1rem;
 
   /* Custom Colors */
-  --turquoise: oklch(0.68 0.14 180);
-  --turquoise-light: oklch(0.92 0.08 180);
-  --turquoise-dark: oklch(0.55 0.14 180);
+  --turquoise: hsl(214 90% 45%);
+  --turquoise-light: hsl(214 90% 94%);
+  --turquoise-dark: hsl(214 90% 36%);
   --orange: oklch(0.78 0.15 60);
   --orange-light: oklch(0.94 0.08 60);
   --success: oklch(0.55 0.15 142);
   --warning: oklch(0.65 0.18 85);
+  --hero-wave-divider: #e0ebeb;
 
   /* Charts */
-  --chart-1: oklch(0.68 0.14 180);
+  --chart-1: hsl(214 90% 45%);
   --chart-2: oklch(0.78 0.15 60);
   --chart-3: oklch(0.6 0.12 220);
   --chart-4: oklch(0.7 0.13 140);
@@ -60,12 +61,12 @@
   /* Sidebar */
   --sidebar: oklch(0.98 0.005 180);
   --sidebar-foreground: oklch(0.25 0.015 200);
-  --sidebar-primary: oklch(0.68 0.14 180);
+  --sidebar-primary: hsl(214 90% 45%);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.92 0.08 180);
-  --sidebar-accent-foreground: oklch(0.55 0.14 180);
+  --sidebar-accent: hsl(214 90% 94%);
+  --sidebar-accent-foreground: hsl(214 90% 36%);
   --sidebar-border: oklch(0.9 0.01 180);
-  --sidebar-ring: oklch(0.68 0.14 180);
+  --sidebar-ring: hsl(214 90% 45%);
 }
 
 .dark {
@@ -78,10 +79,10 @@
   --popover: oklch(0.18 0.012 200);
   --popover-foreground: oklch(0.95 0.01 180);
 
-  --primary: oklch(0.70 0.13 180);
-  --primary-foreground: oklch(0.15 0.015 200);
-  --primary-light: oklch(0.30 0.08 180);
-  --primary-dark: oklch(0.75 0.14 180);
+  --primary: hsl(214 90% 60%);
+  --primary-foreground: oklch(1 0 0);
+  --primary-light: hsl(214 90% 22%);
+  --primary-dark: hsl(214 90% 68%);
 
   --secondary: oklch(0.76 0.14 60);
   --secondary-foreground: oklch(0.15 0.015 200);
@@ -97,16 +98,17 @@
 
   --border: oklch(0.25 0.01 200);
   --input: oklch(0.25 0.01 200);
-  --ring: oklch(0.70 0.13 180);
+  --ring: hsl(214 90% 60%);
 
   --sidebar: oklch(0.16 0.012 200);
   --sidebar-foreground: oklch(0.95 0.01 180);
-  --sidebar-primary: oklch(0.70 0.13 180);
-  --sidebar-primary-foreground: oklch(0.15 0.015 200);
-  --sidebar-accent: oklch(0.30 0.08 180);
-  --sidebar-accent-foreground: oklch(0.75 0.14 180);
+  --sidebar-primary: hsl(214 90% 60%);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: hsl(214 80% 22%);
+  --sidebar-accent-foreground: hsl(214 90% 75%);
   --sidebar-border: oklch(0.25 0.01 200);
-  --sidebar-ring: oklch(0.70 0.13 180);
+  --sidebar-ring: hsl(214 90% 60%);
+  --hero-wave-divider: var(--background);
 }
 
 @theme {
@@ -244,7 +246,11 @@
 
   /* Gradient utilities */
   .gradient-hero {
-    background: linear-gradient(135deg, oklch(0.68 0.14 180) 0%, oklch(0.65 0.12 190) 100%);
+    background: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      color-mix(in oklch, var(--color-primary), black 12%) 100%
+    );
   }
 
   .gradient-cta {
@@ -264,12 +270,16 @@
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    background-image: linear-gradient(135deg, oklch(0.68 0.14 180) 0%, oklch(0.65 0.12 190) 100%);
+    background-image: linear-gradient(
+      135deg,
+      var(--color-primary) 0%,
+      color-mix(in oklch, var(--color-primary), black 12%) 100%
+    );
   }
 
   /* Shadow utilities */
   .shadow-glow {
-    box-shadow: 0 0 40px color-mix(in oklch, oklch(0.68 0.14 180), transparent 75%);
+    box-shadow: 0 0 40px color-mix(in oklch, var(--color-primary), transparent 75%);
   }
 
   .shadow-orange {

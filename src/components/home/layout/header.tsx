@@ -25,6 +25,7 @@ const Header = () => {
 
     const navLinks = [
         { href: "/", label: "Inicio" },
+        { href: "/how-it-works", label: "Cómo funciona" },
         { href: "/packages", label: "Paquetes" },
         { href: "/about", label: "Nosotros" },
         { href: "/contact", label: "Contacto" },
@@ -70,7 +71,7 @@ const Header = () => {
                         </div>
                         <div className="flex flex-col">
                             <span className="text-lg md:text-xl font-bold text-foreground">
-                                PromoTrip <span className="text-primary">AI</span>
+                                GoPromo <span className="text-primary">AI</span>
                             </span>
                             <span className="text-[10px] md:text-xs text-muted-foreground -mt-1">
                                 Viajes Estudiantiles

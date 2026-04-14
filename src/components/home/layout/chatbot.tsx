@@ -44,7 +44,7 @@ const Chatbot = () => {
             <Sparkles className="h-4 w-4" />
           </div>
           <div>
-            <h3 className="text-sm font-bold">PromoTrip AI</h3>
+            <h3 className="text-sm font-bold">GoPromo AI</h3>
             <p className="text-xs opacity-90">Asistente de viajes</p>
           </div>
         </div>

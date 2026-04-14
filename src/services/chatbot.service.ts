@@ -38,7 +38,7 @@ export const getInitialChatbotMessages = (): ChatbotMessage[] => [
     id: "1",
     type: "bot",
     content:
-      "Hola! Soy PromoTrip AI, tu asistente inteligente de viajes. Te ayudare a encontrar el viaje ideal para tu grupo estudiantil.",
+      "Hola! Soy GoPromo AI, tu asistente inteligente de viajes. Te ayudare a encontrar el viaje ideal para tu grupo estudiantil.",
   },
   {
     id: "2",

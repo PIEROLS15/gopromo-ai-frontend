@@ -16,12 +16,12 @@ const WhyChooseUs = () => {
             <div className="py-16 md:py-24">
                 <div className="container px-4">
                     <div className="text-center mb-12">
-                        <Badge variant="success" className="mb-4">
+                        <Badge variant="primary" className="mb-4">
                             <CheckCircle2 className="w-3 h-3" />
                             ¿Por qué elegirnos?
                         </Badge>
                         <h2 className="text-3xl md:text-4xl font-bold">
-                            La diferencia PromoTrip AI
+                            La diferencia GoPromo AI
                         </h2>
                     </div>
 

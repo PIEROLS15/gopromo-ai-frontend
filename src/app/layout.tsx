@@ -14,7 +14,7 @@ const nunito = Nunito({
 })
 
 export const metadata: Metadata = {
-  title: "PromoTrip AI - Viajes Estudiantiles en Cañete",
+  title: "GoPromo AI - Viajes Estudiantiles en Cañete",
   description: "Plataforma inteligente de recomendación y reserva de viajes turísticos estudiantiles",
   generator: "v0.app",
 }

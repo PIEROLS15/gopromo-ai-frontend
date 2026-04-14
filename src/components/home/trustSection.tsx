@@ -42,7 +42,7 @@ const TrustSection = () => {
             <div className="container px-4">
                 {/* Section Header */}
                 <div className="text-center mb-10 md:mb-14">
-                    <Badge variant="success" className="mb-4 gap-1">
+                    <Badge variant="primary" className="mb-4 gap-1">
                         <CheckCircle2 className="w-3 h-3" />
                         Confianza y Seguridad
                     </Badge>
