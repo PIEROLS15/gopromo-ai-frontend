@@ -23,7 +23,7 @@ const MobileSidebar = ({
                         <div className="w-8 h-8 gradient-hero rounded-lg flex items-center justify-center">
                             <Package className="w-4 h-4 text-primary-foreground" />
                         </div>
-                        <span className="font-bold">PromoTrip Admin</span>
+                        <span className="font-bold">GoPromo Admin</span>
                     </Link>
 
                     <button onClick={onClose} className="p-2 hover:bg-muted rounded-lg">

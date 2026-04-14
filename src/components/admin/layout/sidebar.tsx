@@ -12,7 +12,7 @@ const Sidebar = () => {
                         <Package className="w-4 h-4 text-primary-foreground" />
                     </div>
                     <span className="font-bold">
-                        PromoTrip <span className="text-primary">Admin</span>
+                        GoPromo <span className="text-primary">Admin</span>
                     </span>
                 </Link>
             </div>

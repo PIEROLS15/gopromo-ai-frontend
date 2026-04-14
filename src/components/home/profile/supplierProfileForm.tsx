@@ -42,7 +42,7 @@ const SupplierProfileForm = ({ initialData }: Props) => {
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
             <div className="flex items-center gap-2 text-sm mb-1"><Mail className="w-4 h-4" /> Correo Electrónico</div>
-            <Input value={email} readOnly className="bg-background/80 border-white/10 opacity-70 cursor-not-allowed select-none" />
+            <Input value={email} readOnly className="bg-muted/55 border-border text-muted-foreground opacity-100 cursor-not-allowed select-none" />
             <p className="text-xs text-muted-foreground">El correo no puede ser modificado</p>
           </div>
           <div>

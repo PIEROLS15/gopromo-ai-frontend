@@ -18,7 +18,7 @@ const AIChatSection = () => {
                 <div>
                     <h3 className="font-bold">¿Prefieres hablar con nuestra IA?</h3>
                     <p className="text-sm text-muted-foreground mb-2">
-                        PromoTrip AI puede ayudarte en tiempo real
+                        GoPromo AI puede ayudarte en tiempo real
                     </p>
                     <Button size="sm" onClick={openChat}>
                         Iniciar chat

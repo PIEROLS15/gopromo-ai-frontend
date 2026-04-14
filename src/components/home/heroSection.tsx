@@ -42,13 +42,6 @@ const HeroSection = ({ onSearchActiveChange }: HeroSectionProps) => {
       {/* Content */}
       <div className="container relative z-10 px-4 py-12 md:py-20">
         <div className="max-w-3xl mx-auto text-center relative z-50">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-card/90 backdrop-blur-sm px-4 py-2 rounded-full mb-6 shadow-md">
-            <Sparkles className="w-4 h-4 text-secondary" />
-            <span className="text-sm font-medium text-foreground">
-              Powered by Inteligencia Artificial
-            </span>
-          </div>
 
           {/* Title */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight drop-shadow-lg">
@@ -157,7 +150,7 @@ const HeroSection = ({ onSearchActiveChange }: HeroSectionProps) => {
               className="animate-bounce-gentle"
             >
               <Sparkles className="w-5 h-5" />
-              Habla con PromoTrip AI
+              Habla con GoPromo AI
             </Button>
           )}
         </div>

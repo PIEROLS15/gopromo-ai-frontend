@@ -33,7 +33,7 @@ const ProfileSecurityCard = (): React.ReactElement => {
               <Lock className="w-4 h-4" /> Nueva contraseña
             </label>
             <div className="relative">
-              <Input type={showPassword ? "text" : "password"} placeholder="Mínimo 6 caracteres" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} className="bg-muted/40 pr-10"/>
+              <Input type={showPassword ? "text" : "password"} placeholder="Mínimo 6 caracteres" value={newPassword} onChange={(e)=>setNewPassword(e.target.value)} className="bg-muted/40 border-border pr-10"/>
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                 {showPassword ? <EyeOff className="w-4 h-4"/> : <Eye className="w-4 h-4"/>}
               </button>
@@ -45,7 +45,7 @@ const ProfileSecurityCard = (): React.ReactElement => {
               Confirmar nueva contraseña
             </label>
             <div className="relative">
-              <Input type={showPassword ? "text" : "password"} value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} placeholder="Repite la nueva contraseña" className="bg-muted/40 pr-10"/>
+              <Input type={showPassword ? "text" : "password"} value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} placeholder="Repite la nueva contraseña" className="bg-muted/40 border-border pr-10"/>
               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                 {showPassword ? <EyeOff className="w-4 h-4"/> : <Eye className="w-4 h-4"/>}
               </button>

@@ -17,7 +17,7 @@ const Footer = () => {
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-lg font-bold text-background">
-                                    PromoTrip <span className="text-primary">AI</span>
+                                    GoPromo <span className="text-primary">AI</span>
                                 </span>
                             </div>
                         </Link>
@@ -119,7 +119,7 @@ const Footer = () => {
 
                 {/* Bottom */}
                 <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-background/50">
-                    <p>© 2025 PromoTrip AI. Todos los derechos reservados.</p>
+                    <p>© 2025 GoPromo AI. Todos los derechos reservados.</p>
                     <div className="flex gap-6">
                         <Link href="/terminos" className="hover:text-primary transition-colors">
                             Términos y condiciones

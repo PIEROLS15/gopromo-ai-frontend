@@ -10,7 +10,7 @@ const MobileHeader = ({ onMenu }: { onMenu: () => void }) => {
                 <Menu className="w-6 h-6" />
             </button>
 
-            <span className="font-bold text-foreground">PromoTrip Admin</span>
+            <span className="font-bold text-foreground">GoPromo Admin</span>
 
             <ThemeToggle />
         </header>
