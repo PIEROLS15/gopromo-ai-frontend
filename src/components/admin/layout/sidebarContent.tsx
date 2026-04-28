@@ -17,7 +17,7 @@ import { canAccessAdminPath } from "@/services/adminAccess.service";
 const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/packages", label: "Paquetes", icon: Package },
-    { href: "/admin/providers", label: "Proveedores", icon: Building2 },
+    { href: "/admin/suppliers", label: "Proveedores", icon: Building2 },
     { href: "/admin/bookings", label: "Reservas", icon: Calendar },
     { href: "/admin/users", label: "Usuarios", icon: Users },
     { href: "/admin/payments", label: "Pagos", icon: CreditCard },

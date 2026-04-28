@@ -5,6 +5,7 @@ import ThemeToggle from "@/components/shared/themeToggle";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { useSession } from "@/context/sessionContext";
+import { getAdminRouteTitle } from "@/lib/admin/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Link from "next/link";
 import {
@@ -15,22 +16,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const titles: Record<string, string> = {
-    "/admin": "Dashboard",
-    "/admin/packages": "Paquetes",
-    "/admin/providers": "Proveedores",
-    "/admin/bookings": "Reservas",
-    "/admin/users": "Usuarios",
-    "/admin/payments": "Pagos",
-    "/admin/settings": "Configuración",
-};
-
 const TopBar = () => {
     const pathname = usePathname();
     const router = useRouter();
     const { user, logout } = useSession();
 
-    const title = titles[pathname] ?? "Admin";
+    const title = getAdminRouteTitle(pathname);
     const displayName =
         user && "fullName" in user
             ? user.fullName
@@ -45,15 +36,15 @@ const TopBar = () => {
     };
 
   return (
-        <header className="sticky top-0 z-30 bg-card/95 backdrop-blur border-b border-border px-4 py-3">
-            <div className="flex items-center justify-between">
+        <header className="hidden lg:block sticky top-0 z-30 h-16 bg-card/95 backdrop-blur border-b border-border px-4">
+            <div className="h-full flex items-center justify-between">
                 <h1 className="text-lg font-semibold text-foreground capitalize">{title}</h1>
 
                 <div className="flex items-center gap-3">
                 <ThemeToggle />
 
-                <Button variant="ghost" size="icon" className="relative">
-                    <Bell className="w-5 h-5" />
+                <Button variant="ghost" size="icon" className="relative !transition-none">
+                    <Bell className="w-5 h-5 !transition-none" />
                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-secondary text-secondary-foreground text-xs rounded-full flex items-center justify-center" />
                 </Button>
 

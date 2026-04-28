@@ -7,6 +7,8 @@ type ResultsPaginationProps = {
   currentPage: number;
   totalPages: number;
   pageSize: number;
+  compact?: boolean;
+  showWhenEmpty?: boolean;
   onFirstPage: () => void;
   onPrevPage: () => void;
   onNextPage: () => void;
@@ -19,19 +21,27 @@ const ResultsPagination = (props: ResultsPaginationProps) => {
     currentPage,
     totalPages,
     pageSize,
+    compact = false,
+    showWhenEmpty = false,
     onFirstPage,
     onPrevPage,
     onNextPage,
     onLastPage,
   } = props;
 
-  if (totalItems <= 0) return null;
+  if (totalItems <= 0 && !showWhenEmpty) return null;
 
-  const firstResult = (currentPage - 1) * pageSize + 1;
-  const lastResult = Math.min(currentPage * pageSize, totalItems);
+  const firstResult = totalItems > 0 ? (currentPage - 1) * pageSize + 1 : 0;
+  const lastResult = totalItems > 0 ? Math.min(currentPage * pageSize, totalItems) : 0;
 
   return (
-    <div className="mt-8 border-t border-border/70 pt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div
+      className={
+        compact
+          ? "flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+          : "mt-8 border-t border-border/70 pt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+      }
+    >
       <p className="text-sm text-muted-foreground">
         Mostrando {firstResult} - {lastResult} de {totalItems} resultados
       </p>
