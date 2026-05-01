@@ -43,6 +43,14 @@ function mapPackage(item: TourPackageListResponse["data"][number]): AdminPackage
     providerName: item.supplier.companyName,
     price: item.pricePersona,
     active: item.active,
+    categoryName: item.category.name,
+    educationLevelName: item.educationLevel.name,
+    days: item.days,
+    minStudents: item.minStudents,
+    createdAt: item.createdAt,
+    districtName: item.district.name,
+    provinceName: item.district.province.name,
+    departmentName: item.district.province.department.name,
   };
 }
 

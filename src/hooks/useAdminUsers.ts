@@ -8,7 +8,7 @@ import {
   filterUsers,
   paginateUsers,
 } from "@/lib/admin/users";
-import AdminUsersService from "@/services/adminUsers.service";
+import UserService from "@/services/user.service";
 import type { AdminUserRow } from "@/types/adminViews";
 
 export function useAdminUsers() {
@@ -28,7 +28,7 @@ export function useAdminUsers() {
       setLoading(true);
       setError(null);
 
-      const users = await AdminUsersService.getUsersCollection();
+      const users = await UserService.getUsersCollection();
       setUsersCollection(users);
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "No se pudo cargar usuarios.");

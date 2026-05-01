@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { useToast } from "@/hooks/use-toast";
-import AdminUsersService from "@/services/adminUsers.service";
+import UserService from "@/services/user.service";
 import type { UserDetails } from "@/types/adminUsers";
 import type { AdminUserRow } from "@/types/adminViews";
 
@@ -28,7 +28,7 @@ export function useAdminUserActions({ refresh }: UseAdminUserActionsParams) {
     try {
       setDetailsOpen(true);
       setDetailsLoading(true);
-      const detail = await AdminUsersService.getUserById(userId);
+      const detail = await UserService.getById(userId);
       setSelectedUser(detail);
     } catch (cause) {
       setDetailsOpen(false);
@@ -59,7 +59,7 @@ export function useAdminUserActions({ refresh }: UseAdminUserActionsParams) {
 
     try {
       setActionLoadingId(deletingUser.id);
-      const response = await AdminUsersService.deleteUser(deletingUser.id);
+      const response = await UserService.removeById(deletingUser.id);
       toast({
         title: "Usuario eliminado",
         description: response.message,
@@ -83,7 +83,7 @@ export function useAdminUserActions({ refresh }: UseAdminUserActionsParams) {
     try {
       setEditOpen(true);
       setEditLoading(true);
-      const detail = await AdminUsersService.getUserById(userId);
+      const detail = await UserService.getById(userId);
       setEditingUser(detail);
     } catch (cause) {
       setEditOpen(false);
@@ -124,7 +124,7 @@ export function useAdminUserActions({ refresh }: UseAdminUserActionsParams) {
 
     try {
       setActionLoadingId(params.userId);
-      const response = await AdminUsersService.updateUser(params.userId, {
+      const response = await UserService.updateById(params.userId, {
         fullName: params.fullName,
         phone: params.phone,
         ...(params.password ? { password: params.password } : {}),

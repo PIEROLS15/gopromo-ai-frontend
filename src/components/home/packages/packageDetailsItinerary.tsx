@@ -68,12 +68,13 @@ type PackageDetailsItineraryProps = {
   days: ItineraryDay[];
   modalOpen: boolean;
   onModalOpenChange: (open: boolean) => void;
+  showFullButton?: boolean;
 };
 
 const PackageDetailsItinerary = (props: PackageDetailsItineraryProps) => {
-  const { days, modalOpen, onModalOpenChange } = props;
-  const visibleDays = days.slice(0, 2);
-  const shouldShowFullButton = days.length > 2;
+  const { days, modalOpen, onModalOpenChange, showFullButton = true } = props;
+  const visibleDays = showFullButton ? days.slice(0, 2) : days;
+  const shouldShowFullButton = showFullButton && days.length > 2;
 
   return (
     <div className="w-full min-w-0 flex flex-col">
