@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import { useToast } from "@/hooks/use-toast";
-import AdminSuppliersService from "@/services/adminSuppliers.service";
+import SuppliersService from "@/services/suppliers.service";
 import type { AdminSupplier } from "@/types/adminViews";
 
 type UseAdminSupplierActionsParams = {
@@ -24,7 +24,7 @@ export function useAdminSupplierActions({
     try {
       setDetailsOpen(true);
       setDetailsLoading(true);
-      const detail = await AdminSuppliersService.getSupplierById(supplierId);
+      const detail = await SuppliersService.getSupplierById(supplierId);
       setSelectedSupplier(detail);
     } catch (cause) {
       setDetailsOpen(false);
@@ -44,14 +44,14 @@ export function useAdminSupplierActions({
       setActionLoadingId(supplier.id);
 
       if (supplier.active) {
-        const response = await AdminSuppliersService.deactivate(supplier.id);
+        const response = await SuppliersService.deactivate(supplier.id);
         toast({
           title: "Proveedor actualizado",
           description: response.message,
           variant: "success",
         });
       } else {
-        const response = await AdminSuppliersService.activate(supplier.id);
+        const response = await SuppliersService.activate(supplier.id);
         toast({
           title: "Proveedor actualizado",
           description: response.message,
@@ -74,7 +74,7 @@ export function useAdminSupplierActions({
   const handleApprove = async (supplier: AdminSupplier) => {
     try {
       setActionLoadingId(supplier.id);
-      const response = await AdminSuppliersService.approve(supplier.id);
+      const response = await SuppliersService.approve(supplier.id);
       toast({
         title: "Proveedor aprobado",
         description: response.message,

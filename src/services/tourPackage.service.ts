@@ -9,24 +9,30 @@ import {
   UpdateTourPackageData,
 } from "@/types/tourPackage";
 
-export const TourPackageService = {
-  getAll: (page: number, limit: number) =>
-    apiFetch<TourPackageListResponse>(
-      `/api/v1/tour-packages?page=${page}&limit=${limit}`
-    ),
+function buildTourPackagesQuery(params: { page: number; limit: number; active?: boolean }) {
+  const query = new URLSearchParams();
+  query.set("page", String(params.page));
+  query.set("limit", String(params.limit));
 
-  getAllPages: async (limit: number = 50) => {
-    const firstPage = await apiFetch<TourPackageListResponse>(
-      `/api/v1/tour-packages?page=1&limit=${limit}`
-    );
+  if (typeof params.active === "boolean") {
+    query.set("active", String(params.active));
+  }
+
+  return query.toString();
+}
+
+export const TourPackageService = {
+  getAll: (page: number, limit: number, active?: boolean) =>
+    apiFetch<TourPackageListResponse>(`/api/v1/tour-packages?${buildTourPackagesQuery({ page, limit, active })}`),
+
+  getAllPages: async (limit: number = 50, active?: boolean) => {
+    const firstPage = await apiFetch<TourPackageListResponse>(`/api/v1/tour-packages?${buildTourPackagesQuery({ page: 1, limit, active })}`);
 
     let merged = [...firstPage.data];
 
     if (firstPage.meta.totalPages > 1) {
       for (let page = 2; page <= firstPage.meta.totalPages; page += 1) {
-        const response = await apiFetch<TourPackageListResponse>(
-          `/api/v1/tour-packages?page=${page}&limit=${limit}`
-        );
+        const response = await apiFetch<TourPackageListResponse>(`/api/v1/tour-packages?${buildTourPackagesQuery({ page, limit, active })}`);
         merged = [...merged, ...response.data];
       }
     }

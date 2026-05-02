@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 export type DashboardRole = "Admin" | "Supplier";
 export type SuppliersVerificationFilter = "all" | "verified" | "pending";
 export type SuppliersActiveFilter = "all" | "active" | "inactive";
+export type PackagesActiveFilter = "all" | "active" | "inactive";
 
 export type BookingStatus = "Confirmada" | "Pendiente" | "Cancelada";
 export type PaymentStatus = "Pagado" | "Pendiente" | "Fallido";
@@ -23,6 +24,14 @@ export interface AdminPackage {
   providerName: string;
   price: number;
   active: boolean;
+  categoryName: string;
+  educationLevelName: string;
+  days: number;
+  minStudents: number;
+  createdAt: string;
+  districtName: string;
+  provinceName: string;
+  departmentName: string;
 }
 
 export interface AdminSupplier {

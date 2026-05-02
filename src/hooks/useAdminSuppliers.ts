@@ -8,7 +8,7 @@ import {
   filterSuppliersBySearch,
   paginateSuppliers,
 } from "@/lib/admin/suppliers";
-import AdminSuppliersService from "@/services/adminSuppliers.service";
+import SuppliersService from "@/services/suppliers.service";
 import type { AdminSupplier } from "@/types/adminViews";
 
 export function useAdminSuppliers() {
@@ -32,7 +32,7 @@ export function useAdminSuppliers() {
       setLoading(true);
       setError(null);
 
-      const response = await AdminSuppliersService.getSuppliersCollection({
+      const response = await SuppliersService.getSuppliersCollection({
         activeFilter: suppliersActiveFilter,
         verifiedFilter: suppliersVerifiedFilter,
       });

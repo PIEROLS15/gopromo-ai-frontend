@@ -2,7 +2,7 @@ import type { AdminRole, AdminRouteRule } from "@/types/admin";
 
 export const adminRouteRules: AdminRouteRule[] = [
   { prefix: "/admin", roles: ["Admin", "Supplier"] },
-  { prefix: "/admin/packages", roles: ["Supplier"] },
+  { prefix: "/admin/packages", roles: ["Admin"] },
   { prefix: "/admin/suppliers", roles: ["Admin"] },
   { prefix: "/admin/bookings", roles: ["Admin", "Supplier"] },
   { prefix: "/admin/users", roles: ["Admin"] },

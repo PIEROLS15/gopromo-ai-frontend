@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useMemo, useState } from "react";
 import type {
+  PackagesActiveFilter,
   SuppliersActiveFilter,
   SuppliersVerificationFilter,
 } from "@/types/adminViews";
@@ -9,6 +10,14 @@ import type {
 type AdminFiltersContextType = {
   packagesSearch: string;
   setPackagesSearch: (value: string) => void;
+  packagesActiveFilter: PackagesActiveFilter;
+  setPackagesActiveFilter: (value: PackagesActiveFilter) => void;
+  packagesDepartmentFilter: string;
+  setPackagesDepartmentFilter: (value: string) => void;
+  packagesProvinceFilter: string;
+  setPackagesProvinceFilter: (value: string) => void;
+  packagesDistrictFilter: string;
+  setPackagesDistrictFilter: (value: string) => void;
   suppliersSearch: string;
   setSuppliersSearch: (value: string) => void;
   suppliersVerifiedFilter: SuppliersVerificationFilter;
@@ -29,6 +38,10 @@ const AdminFiltersContext = createContext<AdminFiltersContextType | undefined>(u
 
 export const AdminFiltersProvider = ({ children }: { children: React.ReactNode }) => {
   const [packagesSearch, setPackagesSearch] = useState("");
+  const [packagesActiveFilter, setPackagesActiveFilter] = useState<PackagesActiveFilter>("all");
+  const [packagesDepartmentFilter, setPackagesDepartmentFilter] = useState("all");
+  const [packagesProvinceFilter, setPackagesProvinceFilter] = useState("all");
+  const [packagesDistrictFilter, setPackagesDistrictFilter] = useState("all");
   const [suppliersSearch, setSuppliersSearch] = useState("");
   const [suppliersVerifiedFilter, setSuppliersVerifiedFilter] =
     useState<SuppliersVerificationFilter>("all");
@@ -43,6 +56,14 @@ export const AdminFiltersProvider = ({ children }: { children: React.ReactNode }
     () => ({
       packagesSearch,
       setPackagesSearch,
+      packagesActiveFilter,
+      setPackagesActiveFilter,
+      packagesDepartmentFilter,
+      setPackagesDepartmentFilter,
+      packagesProvinceFilter,
+      setPackagesProvinceFilter,
+      packagesDistrictFilter,
+      setPackagesDistrictFilter,
       suppliersSearch,
       setSuppliersSearch,
       suppliersVerifiedFilter,
@@ -60,6 +81,10 @@ export const AdminFiltersProvider = ({ children }: { children: React.ReactNode }
     }),
     [
       packagesSearch,
+      packagesActiveFilter,
+      packagesDepartmentFilter,
+      packagesProvinceFilter,
+      packagesDistrictFilter,
       suppliersSearch,
       suppliersVerifiedFilter,
       suppliersActiveFilter,
@@ -68,6 +93,10 @@ export const AdminFiltersProvider = ({ children }: { children: React.ReactNode }
       bookingStatus,
       paymentStatus,
       setPackagesSearch,
+      setPackagesActiveFilter,
+      setPackagesDepartmentFilter,
+      setPackagesProvinceFilter,
+      setPackagesDistrictFilter,
       setSuppliersSearch,
       setSuppliersVerifiedFilter,
       setSuppliersActiveFilter,

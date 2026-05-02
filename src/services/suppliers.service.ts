@@ -1,10 +1,6 @@
 import { apiFetch } from "@/services/api";
 import type { ApiSuccessResponse } from "@/types/api";
-import type {
-  AdminSupplier,
-  SuppliersActiveFilter,
-  SuppliersVerificationFilter,
-} from "@/types/adminViews";
+import type { AdminSupplier, SuppliersActiveFilter, SuppliersVerificationFilter } from "@/types/adminViews";
 import {
   mapSupplierFromApi,
   type SupplierDetails,
@@ -15,6 +11,8 @@ import {
   ADMIN_SUPPLIERS_FETCH_LIMIT,
   buildSuppliersQueryParams,
 } from "@/lib/admin/suppliers";
+
+// Shared service for suppliers (admin/public can reuse)
 
 async function fetchAllPagesByFilters(params: {
   activeFilter: SuppliersActiveFilter;
@@ -68,7 +66,7 @@ async function fetchSuppliersForActiveFilter(params: {
   return Array.from(uniqueById.values());
 }
 
-const AdminSuppliersService = {
+const SuppliersService = {
   getSuppliersCollection: async (params: {
     activeFilter: SuppliersActiveFilter;
     verifiedFilter: SuppliersVerificationFilter;
@@ -93,7 +91,6 @@ const AdminSuppliersService = {
 
   getSupplierById: async (id: number): Promise<AdminSupplier> => {
     const detail = await apiFetch<SupplierDetails>(`/api/v1/suppliers/${id}`);
-
     return {
       id: detail.id,
       companyName: detail.companyName,
@@ -123,4 +120,4 @@ const AdminSuppliersService = {
     }),
 };
 
-export default AdminSuppliersService;
+export default SuppliersService;
